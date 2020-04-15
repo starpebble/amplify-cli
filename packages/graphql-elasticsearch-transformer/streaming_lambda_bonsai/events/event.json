@@ -1,0 +1,43 @@
+{
+  "Records": [
+    {
+      "eventID": "9d7ac6273ec8ppp8f272beba2bde555f",
+      "eventName": "INSERT",
+      "eventVersion": "1.1",
+      "eventSource": "aws:dynamodb",
+      "awsRegion": "us-east-1",
+      "dynamodb": {
+        "ApproximateCreationDateTime": 1586314508,
+        "Keys": {
+          "id": {
+            "S": "123"
+          }
+        },
+        "NewImage": {
+          "createdAt": {
+            "S": "2020-04-08T02:54:22.130Z"
+          },
+          "__typename": {
+            "S": "Todo"
+          },
+          "name": {
+            "S": "SocialFlats"
+          },
+          "description": {
+            "S": "This is searchable"
+          },
+          "id": {
+            "S": "123"
+          },
+          "updatedAt": {
+            "S": "2020-04-08T02:55:07.530Z"
+          }
+        },
+        "SequenceNumber": "100000000026476021187",
+        "SizeBytes": 134,
+        "StreamViewType": "NEW_AND_OLD_IMAGES"
+      },
+      "eventSourceARN": "arn:aws:dynamodb:us-east-1:777777777777:table/Todo-tohlngrjbrdldbae7skunxzbty-example/stream/2020-04-08T01:25:14.526"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  streaming-lambda
+
+  SAM Template for a DynamoDB event replicator and transformer to ElasticSearch on Bonsai
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  StreamingLambdaFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: streaming_lambda/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Environment:
+        Variables: 
+          BONSAI_ENDPOINT : "amplify-7409635573.us-east-1.bonsaisearch.net:443"
+          BONSAI_ACCESS_KEY : 6hyzRskSbw
+          BONSAI_ACCESS_SECRET : ecvp3JrKTQonS4h
+          DEBUG : 0
+          
+Outputs:
+  StreamingLambdaFunction:
+    Description: "Streaming Lambda Function ARN"
+    Value: !GetAtt StreamingLambdaFunction.Arn

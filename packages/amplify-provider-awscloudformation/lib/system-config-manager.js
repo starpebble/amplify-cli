@@ -2,24 +2,26 @@ const aws = require('aws-sdk');
 const fs = require('fs-extra');
 const path = require('path');
 const ini = require('ini');
-const os = require('os');
 const inquirer = require('inquirer');
 const constants = require('./constants');
 const proxyAgent = require('proxy-agent');
+const { pathManager } = require('amplify-cli-core');
 
-const dotAWSDirPath = path.normalize(path.join(os.homedir(), '.aws'));
-const credentialsFilePath = path.join(dotAWSDirPath, 'credentials');
-const configFilePath = path.join(dotAWSDirPath, 'config');
+const credentialsFilePath = pathManager.getAWSCredentialsFilePath();
+const configFilePath = pathManager.getAWSConfigFilePath();
 
 function setProfile(awsConfig, profileName) {
-  fs.ensureDirSync(dotAWSDirPath);
+  fs.ensureDirSync(pathManager.getDotAWSDirPath());
 
   let credentials = {};
   let config = {};
   if (fs.existsSync(credentialsFilePath)) {
+    makeFileOwnerReadWrite(credentialsFilePath);
     credentials = ini.parse(fs.readFileSync(credentialsFilePath, 'utf-8'));
   }
+
   if (fs.existsSync(configFilePath)) {
+    makeFileOwnerReadWrite(configFilePath);
     config = ini.parse(fs.readFileSync(configFilePath, 'utf-8'));
   }
 
@@ -54,8 +56,8 @@ function setProfile(awsConfig, profileName) {
     };
   }
 
-  fs.writeFileSync(credentialsFilePath, ini.stringify(credentials));
-  fs.writeFileSync(configFilePath, ini.stringify(config));
+  fs.writeFileSync(credentialsFilePath, ini.stringify(credentials), { mode: 0o600 });
+  fs.writeFileSync(configFilePath, ini.stringify(config), { mode: 0o600 });
 }
 
 async function getProfiledAwsConfig(context, profileName, isRoleSourceProfile) {
@@ -90,6 +92,10 @@ async function getProfiledAwsConfig(context, profileName, isRoleSourceProfile) {
   }
 
   return awsConfig;
+}
+
+function makeFileOwnerReadWrite(filePath) {
+  fs.chmodSync(filePath, '600');
 }
 
 async function getRoleCredentials(context, profileName, profileConfig) {
@@ -239,6 +245,7 @@ function getCacheFilePath(context) {
 function getProfileConfig(profileName) {
   let profileConfig;
   if (fs.existsSync(configFilePath)) {
+    makeFileOwnerReadWrite(configFilePath);
     const config = ini.parse(fs.readFileSync(configFilePath, 'utf-8'));
     Object.keys(config).forEach(key => {
       const keyName = key.replace('profile', '').trim();
@@ -253,6 +260,7 @@ function getProfileConfig(profileName) {
 function getProfileCredentials(profileName) {
   let profileCredentials;
   if (fs.existsSync(credentialsFilePath)) {
+    makeFileOwnerReadWrite(credentialsFilePath);
     const credentials = ini.parse(fs.readFileSync(credentialsFilePath, 'utf-8'));
 
     Object.keys(credentials).forEach(key => {
@@ -291,6 +299,7 @@ function getProfileRegion(profileName) {
 function getNamedProfiles() {
   let namedProfiles;
   if (fs.existsSync(configFilePath)) {
+    makeFileOwnerReadWrite(configFilePath);
     const config = ini.parse(fs.readFileSync(configFilePath, 'utf-8'));
     namedProfiles = {};
     Object.keys(config).forEach(key => {

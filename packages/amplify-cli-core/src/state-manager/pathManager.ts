@@ -3,6 +3,11 @@ import * as fs from 'fs-extra';
 import { homedir } from 'os';
 
 const PathConstants = {
+  // in home directory
+  DotAWSDir: '.aws',
+  AWSCredentials: 'credentials',
+  AWSConfig: 'config',
+
   // in project root
   AmplifyDirName: 'amplify',
   DotAmplifyDirName: '.amplify',
@@ -17,6 +22,7 @@ const PathConstants = {
   GitIgnoreFileName: '.gitignore',
   ProjectConfigFileName: 'project-config.json',
   AmplifyMetaFileName: 'amplify-meta.json',
+  TagsFileName: 'tags.json',
 
   LocalEnvFileName: 'local-env-info.json',
   LocalAWSInfoFileName: 'local-aws-info.json',
@@ -68,6 +74,12 @@ export class PathManager {
   getBackendConfigFilePath = (projectPath?: string): string =>
     this.constructPath(projectPath, [PathConstants.AmplifyDirName, PathConstants.BackendDirName, PathConstants.BackendConfigFileName]);
 
+  getTagFilePath = (projectPath?: string): string =>
+    this.constructPath(projectPath, [PathConstants.AmplifyDirName, PathConstants.BackendDirName, PathConstants.TagsFileName]);
+
+  getCurrentTagFilePath = (projectPath?: string): string =>
+    this.constructPath(projectPath, [PathConstants.AmplifyDirName, PathConstants.CurrentCloudBackendDirName, PathConstants.TagsFileName]);
+
   getCurrentAmplifyMetaFilePath = (projectPath?: string): string =>
     this.constructPath(projectPath, [
       PathConstants.AmplifyDirName,
@@ -81,6 +93,12 @@ export class PathManager {
       PathConstants.CurrentCloudBackendDirName,
       PathConstants.BackendConfigFileName,
     ]);
+
+  getDotAWSDirPath = (): string => path.normalize(path.join(homedir(), PathConstants.DotAWSDir));
+
+  getAWSCredentialsFilePath = (): string => path.normalize(path.join(this.getDotAWSDirPath(), PathConstants.AWSCredentials));
+
+  getAWSConfigFilePath = (): string => path.normalize(path.join(this.getDotAWSDirPath(), PathConstants.AWSConfig));
 
   private constructPath = (projectPath?: string, segments: string[] = []): string => {
     if (!projectPath) {

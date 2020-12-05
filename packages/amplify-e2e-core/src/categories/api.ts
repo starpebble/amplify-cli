@@ -1,6 +1,5 @@
-import { nspawn as spawn, KEY_DOWN_ARROW } from '../../src';
+import { getCLIPath, updateSchema, nspawn as spawn, KEY_DOWN_ARROW } from '..';
 import * as fs from 'fs-extra';
-import { getCLIPath, updateSchema } from '../../src';
 import { selectRuntime, selectTemplate } from './lambda-function';
 import { singleSelect, multiSelect } from '../utils/selectors';
 import _ from 'lodash';
@@ -66,7 +65,7 @@ export function addApiWithoutSchema(cwd: string, opts: Partial<AddApiOptions> = 
   });
 }
 
-export function addApiWithSchema(cwd: string, schemaFile: string, opts: Partial<AddApiOptions> = {}) {
+export function addApiWithSchema(cwd: string, schemaFile: string, opts: Partial<AddApiOptions & { apiKeyExpirationDays: number }> = {}) {
   const options = _.assign(defaultOptions, opts);
   const schemaPath = getSchemaPath(schemaFile);
   return new Promise((resolve, reject) => {
@@ -80,7 +79,7 @@ export function addApiWithSchema(cwd: string, schemaFile: string, opts: Partial<
       .wait(/.*Enter a description for the API key.*/)
       .sendCarriageReturn()
       .wait(/.*After how many days from now the API key should expire.*/)
-      .sendLine('1')
+      .sendLine(opts.apiKeyExpirationDays ? opts.apiKeyExpirationDays.toString() : '1')
       .wait(/.*Do you want to configure advanced settings for the GraphQL API.*/)
       .sendCarriageReturn()
       .wait('Do you have an annotated GraphQL schema?')
@@ -276,9 +275,7 @@ export function addRestApi(cwd: string, settings: any) {
       } else {
         chain
           .sendCarriageReturn() // Create new Lambda function
-          .wait('Provide a friendly name for your resource to be used as a label for this category in the project')
-          .sendCarriageReturn()
-          .wait('Provide the AWS Lambda function name')
+          .wait('Provide an AWS Lambda function name')
           .sendCarriageReturn();
 
         selectRuntime(chain, 'nodejs');
@@ -297,11 +294,7 @@ export function addRestApi(cwd: string, settings: any) {
         }
 
         chain
-          .wait('Do you want to access other resources in this project from your Lambda function')
-          .sendLine('n')
-          .wait('Do you want to invoke this function on a recurring schedule?')
-          .sendLine('n')
-          .wait('Do you want to configure Lambda layers for this function?')
+          .wait('Do you want to configure advanced settings?')
           .sendLine('n')
           .wait('Do you want to edit the local lambda function now')
           .sendLine('n');

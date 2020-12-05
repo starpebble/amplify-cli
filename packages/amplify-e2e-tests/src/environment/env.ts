@@ -1,6 +1,6 @@
 import { nspawn as spawn, getCLIPath, getSocialProviders } from 'amplify-e2e-core';
 
-export function addEnvironment(cwd: string, settings: { envName: string; numLayers: number }) {
+export function addEnvironment(cwd: string, settings: { envName: string; numLayers?: number }) {
   return new Promise((resolve, reject) => {
     const chain = spawn(getCLIPath(), ['env', 'add'], { cwd, stripColors: true })
       .wait('Do you want to use an existing environment?')
@@ -26,6 +26,30 @@ export function addEnvironment(cwd: string, settings: { envName: string; numLaye
   });
 }
 
+export function addEnvironmentWithImportedAuth(cwd: string, settings: { envName: string; currentEnvName: string }) {
+  return new Promise((resolve, reject) => {
+    spawn(getCLIPath(), ['env', 'add'], { cwd, stripColors: true })
+      .wait('Do you want to use an existing environment?')
+      .sendConfirmNo()
+      .wait('Enter a name for the environment')
+      .sendLine(settings.envName)
+      .wait('Do you want to use an AWS profile?')
+      .sendConfirmYes()
+      .wait('Please choose the profile you want to use')
+      .sendCarriageReturn()
+      .wait(`already imported to '${settings.currentEnvName}' environment, do you want to import it to the new environment`)
+      .sendConfirmYes()
+      .wait('Initialized your environment successfully.')
+      .run((err: Error) => {
+        if (!err) {
+          resolve();
+        } else {
+          reject(err);
+        }
+      });
+  });
+}
+
 export function checkoutEnvironment(cwd: string, settings: { envName: string }) {
   return new Promise((resolve, reject) => {
     spawn(getCLIPath(), ['env', 'checkout', settings.envName], { cwd, stripColors: true })
@@ -41,7 +65,7 @@ export function checkoutEnvironment(cwd: string, settings: { envName: string }) 
 }
 
 // Test multiple Environments by passing settings.numEnv
-export function listEnvironment(cwd: string, settings: { numEnv: number }) {
+export function listEnvironment(cwd: string, settings: { numEnv?: number }) {
   return new Promise((resolve, reject) => {
     let numEnv = settings.numEnv || 1;
     let regex = /\|\s\*?[a-z]{2,10}\s+\|/;

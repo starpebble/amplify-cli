@@ -2,11 +2,13 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import { homedir } from 'os';
 
-const PathConstants = {
+export const PathConstants = {
   // in home directory
-  DotAWSDir: '.aws',
+  DotAWSDirName: '.aws',
   AWSCredentials: 'credentials',
   AWSConfig: 'config',
+  DeploymentSecretsFileName: 'deployment-secrets.json',
+  AmplifyAdminDirName: 'admin',
 
   // in project root
   AmplifyDirName: 'amplify',
@@ -18,16 +20,23 @@ const PathConstants = {
   CurrentCloudBackendDirName: '#current-cloud-backend',
 
   // FileNames
+  AmplifyAdminConfigFileName: 'config.json',
+
   AmplifyRcFileName: '.amplifyrc',
   GitIgnoreFileName: '.gitignore',
   ProjectConfigFileName: 'project-config.json',
   AmplifyMetaFileName: 'amplify-meta.json',
   TagsFileName: 'tags.json',
+  ParametersJsonFileName: 'parameters.json',
 
   LocalEnvFileName: 'local-env-info.json',
   LocalAWSInfoFileName: 'local-aws-info.json',
   TeamProviderInfoFileName: 'team-provider-info.json',
   BackendConfigFileName: 'backend-config.json',
+
+  CLIJSONFileName: 'cli.json',
+  CLIJSONFileNameGlob: 'cli*.json',
+  CLIJsonWithEnvironmentFileName: (env: string) => `cli.${env}.json`,
 };
 
 export class PathManager {
@@ -39,7 +48,22 @@ export class PathManager {
     // this.projectRootPath = this.findProjectRoot();
   }
 
+  getAmplifyPackageLibDirPath = (packageName: string): string => {
+    const result = path.join(this.getAmplifyLibRoot(), packageName);
+    if (!process.env.AMPLIFY_SUPPRESS_NO_PKG_LIB && !fs.pathExistsSync(result)) {
+      throw new Error(`Package lib at ${result} does not exist.`);
+    }
+    return result;
+  };
+
+  getAmplifyLibRoot = (): string => path.join(this.getHomeDotAmplifyDirPath(), 'lib');
+
   getHomeDotAmplifyDirPath = (): string => this.homeDotAmplifyDirPath;
+
+  getAmplifyAdminDirPath = (): string => this.constructPath(this.getHomeDotAmplifyDirPath(), [PathConstants.AmplifyAdminDirName]);
+
+  getAmplifyAdminConfigFilePath = (): string =>
+    this.constructPath(this.getAmplifyAdminDirPath(), [PathConstants.AmplifyAdminConfigFileName]);
 
   getAmplifyDirPath = (projectPath?: string): string => this.constructPath(projectPath, [PathConstants.AmplifyDirName]);
 
@@ -80,6 +104,15 @@ export class PathManager {
   getCurrentTagFilePath = (projectPath?: string): string =>
     this.constructPath(projectPath, [PathConstants.AmplifyDirName, PathConstants.CurrentCloudBackendDirName, PathConstants.TagsFileName]);
 
+  getResourceParamatersFilePath = (projectPath: string | undefined, category: string, resourceName: string): string =>
+    this.constructPath(projectPath, [
+      PathConstants.AmplifyDirName,
+      PathConstants.BackendDirName,
+      category,
+      resourceName,
+      PathConstants.ParametersJsonFileName,
+    ]);
+
   getCurrentAmplifyMetaFilePath = (projectPath?: string): string =>
     this.constructPath(projectPath, [
       PathConstants.AmplifyDirName,
@@ -94,11 +127,21 @@ export class PathManager {
       PathConstants.BackendConfigFileName,
     ]);
 
-  getDotAWSDirPath = (): string => path.normalize(path.join(homedir(), PathConstants.DotAWSDir));
+  getDotAWSDirPath = (): string => path.normalize(path.join(homedir(), PathConstants.DotAWSDirName));
 
   getAWSCredentialsFilePath = (): string => path.normalize(path.join(this.getDotAWSDirPath(), PathConstants.AWSCredentials));
 
   getAWSConfigFilePath = (): string => path.normalize(path.join(this.getDotAWSDirPath(), PathConstants.AWSConfig));
+
+  getCLIJSONFilePath = (projectPath: string, env?: string): string => {
+    const fileName = env === undefined ? PathConstants.CLIJSONFileName : PathConstants.CLIJsonWithEnvironmentFileName(env);
+
+    return this.constructPath(projectPath, [PathConstants.AmplifyDirName, fileName]);
+  };
+
+  getDotAWSAmplifyDirPath = (): string => path.normalize(path.join(homedir(), PathConstants.DotAWSDirName, PathConstants.AmplifyDirName));
+
+  getDeploymentSecrets = (): string => path.normalize(path.join(this.getDotAWSAmplifyDirPath(), PathConstants.DeploymentSecretsFileName));
 
   private constructPath = (projectPath?: string, segments: string[] = []): string => {
     if (!projectPath) {

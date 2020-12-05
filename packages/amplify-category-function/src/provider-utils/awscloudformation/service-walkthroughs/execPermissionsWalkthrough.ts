@@ -21,8 +21,9 @@ export const askExecRolePermissionsQuestions = async (
   context,
   lambdaFunctionToUpdate: string,
   currentPermissionMap?,
+  currentEnvMap?,
 ): Promise<ExecRolePermissionsResponse> => {
-  const amplifyMeta = stateManager.getCurrentMeta();
+  const amplifyMeta = stateManager.getMeta();
 
   const categories = Object.keys(amplifyMeta).filter(category => category !== 'providers');
 
@@ -106,11 +107,13 @@ export const askExecRolePermissionsQuestions = async (
       }
 
       for (let resourceName of selectedResources) {
-        const pluginInfo = context.amplify.getCategoryPluginInfo(context, category, resourceName);
-        const { getPermissionPolicies } = await import(pluginInfo.packageLocation);
-
-        if (!getPermissionPolicies) {
-          context.print.warning(`Policies cannot be added for ${category}/${resourceName}`);
+        if (
+          // In case of some resources they are not in the meta file so check for resource existence as well
+          amplifyMeta[category] &&
+          amplifyMeta[category][resourceName] &&
+          amplifyMeta[category][resourceName].mobileHubMigrated === true
+        ) {
+          context.print.warning(`Policies cannot be added for ${category}/${resourceName}, since it is a MobileHub imported resource.`);
           continue;
         } else {
           const crudPermissionQuestion = {
@@ -149,7 +152,14 @@ export const askExecRolePermissionsQuestions = async (
             ];
           }
 
-          const { permissionPolicies, resourceAttributes } = await getPermissionPolicies(context, { [resourceName]: resourcePolicy });
+          const { permissionPolicies, resourceAttributes } = await context.amplify.invokePluginMethod(
+            context,
+            category,
+            resourceName,
+            'getPermissionPolicies',
+            [context, { [resourceName]: resourcePolicy }],
+          );
+
           categoryPolicies = categoryPolicies.concat(permissionPolicies);
 
           if (!permissions[category]) {
@@ -188,6 +198,7 @@ export const askExecRolePermissionsQuestions = async (
       context.print.warning(`Policies cannot be added for ${category}`);
       context.print.info(e.stack);
       context.usageData.emitError(e);
+      process.exitCode = 1;
     }
   }
 
@@ -232,6 +243,12 @@ export const askExecRolePermissionsQuestions = async (
       });
     }
   });
+
+  if (currentEnvMap) {
+    _.keys(currentEnvMap).forEach(key => {
+      envVars.add(key);
+    });
+  }
 
   const envVarStringList = Array.from(envVars)
     .sort()

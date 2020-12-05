@@ -1,183 +1,117 @@
 const inquirer = require('inquirer');
 const open = require('open');
-const path = require('path');
-const fs = require('fs-extra');
 const _ = require('lodash');
+const { stateManager } = require('amplify-cli-core');
 const { getAuthResourceName } = require('../../utils/getAuthResourceName');
-const { verificationBucketName } = require('./utils/verification-bucket-name');
-const {
-  copyCfnTemplate,
-  removeDeprecatedProps,
-  createUserPoolGroups,
-  addAdminAuth,
-  saveResourceParameters,
-  lambdaTriggers,
-  copyS3Assets,
-} = require('./utils/synthesize-resources');
-const { protectedValues, safeDefaults, ENV_SPECIFIC_PARAMS, privateKeys } = require('./constants');
-const { getAddAuthHandler } = require('./handlers/get-add-auth-handler');
+const { copyCfnTemplate, saveResourceParameters } = require('./utils/synthesize-resources');
+const { ENV_SPECIFIC_PARAMS, AmplifyAdmin, UserPool, IdentityPool, BothPools, privateKeys } = require('./constants');
+const { getAddAuthHandler, getUpdateAuthHandler } = require('./handlers/resource-handlers');
+const { supportedServices } = require('../supported-services');
+const { importResource, importedAuthEnvInit } = require('./import');
 
-function serviceQuestions(context, defaultValuesFilename, stringMapFilename, serviceWalkthroughFilename, serviceMetadata) {
+function serviceQuestions(context, defaultValuesFilename, stringMapsFilename, serviceWalkthroughFilename, serviceMetadata) {
   const serviceWalkthroughSrc = `${__dirname}/service-walkthroughs/${serviceWalkthroughFilename}`;
   const { serviceWalkthrough } = require(serviceWalkthroughSrc);
-  return serviceWalkthrough(context, defaultValuesFilename, stringMapFilename, serviceMetadata);
+  return serviceWalkthrough(context, defaultValuesFilename, stringMapsFilename, serviceMetadata);
 }
 
 async function addResource(context, service) {
-  const serviceMetadata = require('../supported-services').supportedServices[service];
-  const { defaultValuesFilename, stringMapFilename, serviceWalkthroughFilename } = serviceMetadata;
+  const serviceMetadata = supportedServices[service];
+  const { defaultValuesFilename, stringMapsFilename, serviceWalkthroughFilename } = serviceMetadata;
   return getAddAuthHandler(context)(
-    await serviceQuestions(context, defaultValuesFilename, stringMapFilename, serviceWalkthroughFilename, serviceMetadata),
+    await serviceQuestions(context, defaultValuesFilename, stringMapsFilename, serviceWalkthroughFilename, serviceMetadata),
   );
 }
 
-// may be able to consolidate this into just createUserPoolGroups
-async function updateUserPoolGroups(context, resourceName, userPoolGroupList) {
-  if (userPoolGroupList && userPoolGroupList.length > 0) {
-    const userPoolGroupPrecedenceList = [];
-
-    for (let i = 0; i < userPoolGroupList.length; i += 1) {
-      userPoolGroupPrecedenceList.push({
-        groupName: userPoolGroupList[i],
-        precedence: i + 1,
-      });
-    }
-
-    const userPoolGroupFile = path.join(
-      context.amplify.pathManager.getBackendDirPath(),
-      'auth',
-      'userPoolGroups',
-      'user-pool-group-precedence.json',
-    );
-
-    fs.outputFileSync(userPoolGroupFile, JSON.stringify(userPoolGroupPrecedenceList, null, 4));
-
-    context.amplify.updateamplifyMetaAfterResourceUpdate('auth', 'userPoolGroups', {
-      service: 'Cognito-UserPool-Groups',
-      providerPlugin: 'awscloudformation',
-      dependsOn: [
-        {
-          category: 'auth',
-          resourceName,
-          attributes: ['UserPoolId', 'AppClientIDWeb', 'AppClientID', 'IdentityPoolId'],
-        },
-      ],
-    });
-  }
-}
-
-async function updateResource(context, category, serviceResult) {
-  const { service, resourceName } = serviceResult;
-  let props = {};
-  const serviceMetadata = require('../supported-services').supportedServices[service];
-  const { cfnFilename, defaultValuesFilename, stringMapFilename, serviceWalkthroughFilename, provider } = serviceMetadata;
-
-  return serviceQuestions(context, defaultValuesFilename, stringMapFilename, serviceWalkthroughFilename, serviceMetadata)
-    .then(async result => {
-      const defaultValuesSrc = `${__dirname}/assets/${defaultValuesFilename}`;
-      const { functionMap } = require(defaultValuesSrc);
-      const { authProviders } = require(`${__dirname}/assets/string-maps.js`);
-
-      /* if user has used the default configuration,
-       * we populate base choices like authSelections and resourceName for them */
-      if (!result.authSelections) {
-        result.authSelections = 'identityPoolAndUserPool';
-      }
-
-      const defaults = functionMap[result.authSelections](context.updatingAuth.resourceName);
-
-      // removing protected values from results
-      for (let i = 0; i < protectedValues.length; i += 1) {
-        if (context.updatingAuth[protectedValues[i]]) {
-          delete result[protectedValues[i]];
-        }
-      }
-
-      if (result.useDefault && ['default', 'defaultSocial'].includes(result.useDefault)) {
-        for (let i = 0; i < safeDefaults.length; i += 1) {
-          delete context.updatingAuth[safeDefaults[i]];
-        }
-      }
-
-      await verificationBucketName(result, context.updatingAuth);
-
-      props = Object.assign(defaults, removeDeprecatedProps(context.updatingAuth), result);
-
-      const resources = context.amplify.getProjectMeta();
-
-      if (resources.auth.userPoolGroups) {
-        await updateUserPoolGroups(context, props.resourceName, result.userPoolGroupList);
-      } else {
-        await createUserPoolGroups(context, props.resourceName, result.userPoolGroupList);
-      }
-
-      if (resources.api && resources.api.AdminQueries) {
-        // Find Existing functionName
-        let functionName;
-        if (resources.api.AdminQueries.dependsOn) {
-          const adminFunctionResource = resources.api.AdminQueries.dependsOn.find(
-            resource => resource.category === 'function' && resource.resourceName.includes('AdminQueries'),
-          );
-          if (adminFunctionResource) {
-            functionName = adminFunctionResource.resourceName;
-          }
-        }
-        await addAdminAuth(context, props.resourceName, 'update', result.adminQueryGroup, functionName);
-      } else {
-        await addAdminAuth(context, props.resourceName, 'add', result.adminQueryGroup);
-      }
-
-      const providerPlugin = context.amplify.getPluginInstance(context, provider);
-      const previouslySaved = providerPlugin.loadResourceParameters(context, 'auth', resourceName).triggers || '{}';
-      await lambdaTriggers(props, context, JSON.parse(previouslySaved));
-
-      if ((!result.updateFlow && !result.thirdPartyAuth) || (result.updateFlow === 'manual' && !result.thirdPartyAuth)) {
-        delete props.selectedParties;
-        delete props.authProviders;
-        authProviders.forEach(a => {
-          if (props[a.answerHashKey]) {
-            delete props[a.answerHashKey];
-          }
-        });
-        if (props.googleIos) {
-          delete props.googleIos;
-        }
-        if (props.googleAndroid) {
-          delete props.googleAndroid;
-        }
-        if (props.audiences) {
-          delete props.audiences;
-        }
-      }
-
-      if (props.useDefault === 'default' || props.hostedUI === false) {
-        delete props.oAuthMetadata;
-        delete props.hostedUIProviderMeta;
-        delete props.hostedUIProviderCreds;
-        delete props.hostedUIDomainName;
-        delete props.authProvidersUserPool;
-      }
-
-      if (result.updateFlow !== 'updateUserPoolGroups' && result.updateFlow !== 'updateAdminQueries') {
-        await copyCfnTemplate(context, category, props, cfnFilename);
-        saveResourceParameters(context, provider, category, resourceName, props, ENV_SPECIFIC_PARAMS);
-      }
-    })
-    .then(async () => {
-      await copyS3Assets(context, props);
-      return props.resourceName;
-    });
+async function updateResource(context, { service }) {
+  const serviceMetadata = supportedServices[service];
+  const { defaultValuesFilename, stringMapsFilename, serviceWalkthroughFilename } = serviceMetadata;
+  return getUpdateAuthHandler(context)(
+    await serviceQuestions(context, defaultValuesFilename, stringMapsFilename, serviceWalkthroughFilename, serviceMetadata),
+  );
 }
 
 async function updateConfigOnEnvInit(context, category, service) {
-  const srvcMetaData = require('../supported-services').supportedServices.Cognito;
-  const { defaultValuesFilename, stringMapFilename, serviceWalkthroughFilename } = srvcMetaData;
+  const srvcMetaData = supportedServices.Cognito;
+  const { defaultValuesFilename, stringMapsFilename, serviceWalkthroughFilename, provider } = srvcMetaData;
 
-  const providerPlugin = context.amplify.getPluginInstance(context, srvcMetaData.provider);
+  const providerPlugin = context.amplify.getPluginInstance(context, provider);
   // previously selected answers
   const resourceParams = providerPlugin.loadResourceParameters(context, 'auth', service);
   // ask only env specific questions
   let currentEnvSpecificValues = context.amplify.loadEnvResourceParameters(context, category, service);
+
+  const resource = _.get(context.exeInfo, ['amplifyMeta', category, service]);
+
+  // Imported auth resource behavior is different from Amplify managed resources, as
+  // they are immutable and all parameters and values are derived from the currently
+  // cloud deployed values.
+  if (resource && resource.serviceType === 'imported') {
+    let envSpecificParametersResult;
+    const { doServiceWalkthrough, succeeded, envSpecificParameters } = await importedAuthEnvInit(
+      context,
+      service,
+      resource,
+      resourceParams,
+      provider,
+      providerPlugin,
+      currentEnvSpecificValues,
+      isInHeadlessMode(context),
+      isInHeadlessMode(context) ? getHeadlessParams(context) : {},
+    );
+
+    // No need for headless check as this will never be true for headless
+    if (doServiceWalkthrough === true) {
+      const importResult = await importResource(
+        context,
+        {
+          providerName: provider,
+          provider: undefined, // We don't have the resolved directory of the provider we pass in an instance
+          service: 'Cognito',
+        },
+        resourceParams,
+        providerPlugin,
+        false,
+      );
+
+      if (importResult) {
+        envSpecificParametersResult = importResult.envSpecificParameters;
+      } else {
+        throw new Error('There was an error importing the previously configured auth configuration to the new environment.');
+      }
+    } else if (succeeded) {
+      envSpecificParametersResult = envSpecificParameters;
+    } else {
+      // succeeded === false | undefined
+      throw new Error('There was an error importing the previously configured auth configuration to the new environment.');
+    }
+
+    // If the imported resource was synced up to the cloud before, copy over the timestamp since frontend generation
+    // and other pieces of the CLI could rely on the presence of a value, if no timestamp was found for the same
+    // resource, then do nothing as push will assign one.
+    const currentMeta = stateManager.getCurrentMeta(undefined, {
+      throwIfNotExist: false,
+    });
+
+    if (currentMeta) {
+      const meta = stateManager.getMeta(undefined, {
+        throwIfNotExist: false,
+      });
+
+      const cloudTimestamp = _.get(currentMeta, [category, service, 'lastPushTimeStamp'], undefined);
+
+      if (cloudTimestamp) {
+        resource.lastPushTimeStamp = cloudTimestamp;
+      } else {
+        resource.lastPushTimeStamp = new Date();
+      }
+
+      _.set(meta, [category, service, 'lastPushTimeStamp'], cloudTimestamp);
+      stateManager.setMeta(undefined, meta);
+    }
+
+    return envSpecificParametersResult;
+  }
 
   // legacy headless mode (only supports init)
   if (isInHeadlessMode(context)) {
@@ -216,20 +150,24 @@ async function updateConfigOnEnvInit(context, category, service) {
   srvcMetaData.inputs = srvcMetaData.inputs.filter(
     input => ENV_SPECIFIC_PARAMS.includes(input.key) && !Object.keys(currentEnvSpecificValues).includes(input.key),
   );
+
   const serviceWalkthroughSrc = `${__dirname}/service-walkthroughs/${serviceWalkthroughFilename}`;
   const { serviceWalkthrough } = require(serviceWalkthroughSrc);
 
   // interactive mode
-  const result = await serviceWalkthrough(context, defaultValuesFilename, stringMapFilename, srvcMetaData, resourceParams);
+  const result = await serviceWalkthrough(context, defaultValuesFilename, stringMapsFilename, srvcMetaData, resourceParams);
   let envParams = {};
+
   if (resourceParams.hostedUIProviderMeta) {
     envParams = formatCredsforEnvParams(currentEnvSpecificValues, result, resourceParams);
   }
+
   ENV_SPECIFIC_PARAMS.forEach(paramName => {
     if (paramName in result && paramName !== 'hostedUIProviderCreds' && privateKeys.indexOf(paramName) === -1) {
       envParams[paramName] = result[paramName];
     }
   });
+
   return envParams;
 }
 
@@ -240,8 +178,7 @@ async function migrate(context) {
   if (!Object.keys(existingAuth).length > 0) {
     return;
   }
-  const servicesMetadata = require('../supported-services').supportedServices;
-  const { provider, cfnFilename, defaultValuesFilename } = servicesMetadata.Cognito;
+  const { provider, cfnFilename, defaultValuesFilename } = supportedServices.Cognito;
   const defaultValuesSrc = `${__dirname}/assets/${defaultValuesFilename}`;
 
   const { roles } = require(defaultValuesSrc);
@@ -358,23 +295,47 @@ function getRequiredParamsForHeadlessInit(projectType, previousValues) {
 async function console(context, amplifyMeta) {
   const cognitoOutput = getCognitoOutput(amplifyMeta);
   if (cognitoOutput) {
-    const { Region } = amplifyMeta.providers.awscloudformation;
+    const { AmplifyAppId, Region } = amplifyMeta.providers.awscloudformation;
     if (cognitoOutput.UserPoolId && cognitoOutput.IdentityPoolId) {
+      let choices = [UserPool, IdentityPool, BothPools];
+      let isAdminApp = false;
+      let region;
+      if (AmplifyAppId) {
+        const providerPlugin = require(context.amplify.getProviderPlugins(context).awscloudformation);
+        const res = await providerPlugin.isAmplifyAdminApp(AmplifyAppId);
+        isAdminApp = res.isAdminApp;
+        region = res.region;
+      }
+
+      if (isAdminApp) {
+        if (region !== Region) {
+          context.print.warning(`Region mismatch: Amplify service returned '${region}', but found '${Region}' in amplify-meta.json.`);
+        }
+        if (!AmplifyAppId) {
+          throw new Error('Missing AmplifyAppId in amplify-meta.json');
+        }
+        choices = [AmplifyAdmin, ...choices];
+      }
+
       const answer = await inquirer.prompt({
         name: 'selection',
         type: 'list',
         message: 'Which console',
-        choices: ['User Pool', 'Identity Pool', 'Both'],
-        default: 'Both',
+        choices,
+        default: isAdminApp ? AmplifyAdmin : BothPools,
       });
 
       switch (answer.selection) {
-        case 'User Pool':
+        case AmplifyAdmin:
+          await openAdminUI(context, AmplifyAppId, Region);
+          break;
+        case UserPool:
           await openUserPoolConsole(context, Region, cognitoOutput.UserPoolId);
           break;
-        case 'Identity Pool':
+        case IdentityPool:
           await openIdentityPoolConsole(context, Region, cognitoOutput.IdentityPoolId);
           break;
+        case BothPools:
         default:
           await openUserPoolConsole(context, Region, cognitoOutput.UserPoolId);
           await openIdentityPoolConsole(context, Region, cognitoOutput.IdentityPoolId);
@@ -405,6 +366,15 @@ function getCognitoOutput(amplifyMeta) {
   return cognitoOutput;
 }
 
+async function openAdminUI(context, appId, region) {
+  const { envName } = context.amplify.getEnvInfo();
+  const providerPlugin = require(context.amplify.getProviderPlugins(context).awscloudformation);
+  const baseUrl = providerPlugin.adminBackendMap[region].amplifyAdminUrl;
+  const adminUrl = `${baseUrl}/admin/${appId}/${envName}/auth`;
+  await open(adminUrl, { wait: false });
+  context.print.success(adminUrl);
+}
+
 async function openUserPoolConsole(context, region, userPoolId) {
   const userPoolConsoleUrl = `https://${region}.console.aws.amazon.com/cognito/users/?region=${region}#/pool/${userPoolId}/details`;
   await open(userPoolConsoleUrl, { wait: false });
@@ -420,8 +390,7 @@ async function openIdentityPoolConsole(context, region, identityPoolId) {
 }
 
 function getPermissionPolicies(context, service, resourceName, crudOptions) {
-  const serviceMetadata = require('../supported-services').supportedServices[service];
-  const { serviceWalkthroughFilename } = serviceMetadata;
+  const { serviceWalkthroughFilename } = supportedServices[service];
   const serviceWalkthroughSrc = `${__dirname}/service-walkthroughs/${serviceWalkthroughFilename}`;
   const { getIAMPolicies } = require(serviceWalkthroughSrc);
 
@@ -430,7 +399,7 @@ function getPermissionPolicies(context, service, resourceName, crudOptions) {
     return;
   }
 
-  return getIAMPolicies(resourceName, crudOptions);
+  return getIAMPolicies(context, resourceName, crudOptions);
 }
 
 module.exports = {
@@ -440,4 +409,5 @@ module.exports = {
   migrate,
   console,
   getPermissionPolicies,
+  importResource,
 };

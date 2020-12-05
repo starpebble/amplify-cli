@@ -34,14 +34,8 @@ export const safeDefaults = [
   'userpoolClientRefreshTokenValidity',
 ];
 
-export const protectedValues = [
-  'resourceName',
-  'userPoolName',
-  'identityPoolName',
-  'usernameAttributes',
-  'autoVerifiedAttributes',
-  'requiredAttributes',
-];
+// These attributes cannot be modified once the auth resource is created
+export const immutableAttributes = ['resourceName', 'userPoolName', 'identityPoolName', 'usernameAttributes', 'requiredAttributes'];
 
 export const privateKeys = [
   'facebookAppIdUserPool',
@@ -68,3 +62,9 @@ export const privateKeys = [
   'addLogoutOnUpdate',
   'additionalQuestions',
 ];
+
+// amplify console auth options
+export const UserPool = 'User Pool';
+export const IdentityPool = 'Identity Pool';
+export const BothPools = `${UserPool} and ${IdentityPool}`;
+export const AmplifyAdmin = 'Amplify admin UI';

@@ -3,8 +3,10 @@ import * as fs from 'fs-extra';
 import * as rimraf from 'rimraf';
 import { config } from 'dotenv';
 
+export * from './add-circleci-tags';
 export * from './api';
 export * from './appsync';
+export * from './envVars';
 export * from './getAppId';
 export * from './headless';
 export * from './nexpect';
@@ -17,17 +19,16 @@ export * from './sdk-calls';
 export * from './selectors';
 export * from './sleep';
 export * from './transformConfig';
-export * from './envVars';
 
 // run dotenv config to update env variable
 config();
 
 export function deleteProjectDir(root: string) {
-  return rimraf.sync(root);
+  rimraf.sync(root);
 }
 
 export function deleteAmplifyDir(root: string) {
-  return rimraf.sync(path.join(root, 'amplify'));
+  rimraf.sync(path.join(root, 'amplify'));
 }
 
 export function overrideFunctionSrc(root: string, name: string, code: string) {

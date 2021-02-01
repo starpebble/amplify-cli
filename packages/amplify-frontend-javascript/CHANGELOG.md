@@ -3,6 +3,62 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.20.4](https://github.com/aws-amplify/amplify-cli/compare/amplify-frontend-javascript@2.20.3...amplify-frontend-javascript@2.20.4) (2021-01-08)
+
+
+### Bug Fixes
+
+* better error message when angular.json is missing ([#6253](https://github.com/aws-amplify/amplify-cli/issues/6253)) ([0c8175e](https://github.com/aws-amplify/amplify-cli/commit/0c8175e6312fc6fcd5b9e1334cf2011d1e8d392a))
+* container based deployments on native projects ([#6201](https://github.com/aws-amplify/amplify-cli/issues/6201)) ([5ebcae8](https://github.com/aws-amplify/amplify-cli/commit/5ebcae83625d4626daf4391240b19fb7bd475759))
+* set default sourceDir for rn projects to 'src' ([#6319](https://github.com/aws-amplify/amplify-cli/issues/6319)) ([6ebbe41](https://github.com/aws-amplify/amplify-cli/commit/6ebbe411aa0a8c790f0ed64ef6d0aa71b70d14ec))
+
+
+
+
+
+## [2.20.3](https://github.com/aws-amplify/amplify-cli/compare/amplify-frontend-javascript@2.20.2...amplify-frontend-javascript@2.20.3) (2020-12-31)
+
+**Note:** Version bump only for package amplify-frontend-javascript
+
+
+
+
+
+## [2.20.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-frontend-javascript@2.20.1...amplify-frontend-javascript@2.20.2) (2020-12-21)
+
+**Note:** Version bump only for package amplify-frontend-javascript
+
+
+
+
+
+## [2.20.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-frontend-javascript@2.20.0...amplify-frontend-javascript@2.20.1) (2020-12-16)
+
+**Note:** Version bump only for package amplify-frontend-javascript
+
+
+
+
+
+# [2.20.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-frontend-javascript@2.19.1...amplify-frontend-javascript@2.20.0) (2020-12-11)
+
+
+### Features
+
+* container-based deployments([#5727](https://github.com/aws-amplify/amplify-cli/issues/5727)) ([fad6377](https://github.com/aws-amplify/amplify-cli/commit/fad6377bd384862ca4429cb1a83eee90efd62b58))
+
+
+
+
+
+## [2.19.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-frontend-javascript@2.19.0...amplify-frontend-javascript@2.19.1) (2020-12-07)
+
+**Note:** Version bump only for package amplify-frontend-javascript
+
+
+
+
+
 # [2.19.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-frontend-javascript@2.18.2...amplify-frontend-javascript@2.19.0) (2020-11-30)
 
 

@@ -268,11 +268,11 @@ export const cantMutateMultipleGSIAtUpdateTimeRule = (diffs: Diff[], currentBuil
 
     for (const diff of diffs) {
       if (
-        // implies a field was changed in a GSI after it was created.
-        // Path like:["stacks","Todo.json","Resources","TodoTable","Properties","GlobalSecondaryIndexes", ... ]
+        // implies a field was changed in a GSI after it was created if it ends in GSI
+        // Path like: ["stacks","Todo.json","Resources","TodoTable","Properties","GlobalSecondaryIndexes" ]
         diff.kind === 'A' &&
         diff.path.length >= 6 &&
-        diff.path[5] === 'GlobalSecondaryIndexes'
+        diff.path.slice(-1)[0] === 'GlobalSecondaryIndexes'
       ) {
         const diffTableName = diff.path[3];
 
@@ -333,6 +333,28 @@ export const cantEditLSIKeySchemaRule = (diff: Diff, currentBuild: DiffableProje
   }
 };
 
+export function cantRemoveLSILater(diff: Diff, currentBuild: DiffableProject, nextBuild: DiffableProject) {
+  const throwError = (stackName: string, tableName: string): void => {
+    throw new InvalidMigrationError(
+      `Attempting to remove a local secondary index on the ${tableName} table in the ${stackName} stack.`,
+      'A local secondary index cannot be removed after deployment.',
+      'In order to remove the local secondary index you need to delete or rename the table.',
+    );
+  };
+  // if removing more than one lsi
+  if (diff.kind === 'D' && diff.lhs && diff.path.length === 6 && diff.path[5] === 'LocalSecondaryIndexes') {
+    const tableName = diff.path[3];
+    const stackName = path.basename(diff.path[1], '.json');
+    throwError(stackName, tableName);
+  }
+ // if removing one lsi
+  if(diff.kind === 'A' && diff.item.kind === 'D' && diff.path.length === 6 && diff.path[5] === 'LocalSecondaryIndexes') {
+    const tableName = diff.path[3];
+    const stackName = path.basename(diff.path[1], '.json');
+    throwError(stackName, tableName);
+  }
+}
+
 export const cantHaveMoreThan500ResourcesRule = (diffs: Diff[], currentBuild: DiffableProject, nextBuild: DiffableProject): void => {
   const stackKeys = Object.keys(nextBuild.stacks);
 
@@ -363,7 +385,9 @@ const loadDiffableProject = async (path: string, rootStackName: string): Promise
     diffableProject.stacks[key] = JSONUtilities.parse(project.stacks[key]);
   }
 
-  diffableProject.root = JSONUtilities.parse(project[rootStackName]);
+  if (project[rootStackName]) {
+    diffableProject.root = JSONUtilities.parse(project[rootStackName]);
+  }
 
   return diffableProject;
 };

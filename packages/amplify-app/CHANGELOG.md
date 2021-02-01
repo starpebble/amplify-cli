@@ -3,6 +3,84 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.20.8](https://github.com/aws-amplify/amplify-cli/compare/amplify-app@2.20.7...amplify-app@2.20.8) (2021-01-13)
+
+**Note:** Version bump only for package amplify-app
+
+
+
+
+
+## [2.20.7](https://github.com/aws-amplify/amplify-cli/compare/amplify-app@2.20.6...amplify-app@2.20.7) (2021-01-08)
+
+
+### Bug Fixes
+
+* set default sourceDir for rn projects to 'src' ([#6319](https://github.com/aws-amplify/amplify-cli/issues/6319)) ([6ebbe41](https://github.com/aws-amplify/amplify-cli/commit/6ebbe411aa0a8c790f0ed64ef6d0aa71b70d14ec))
+
+
+
+
+
+## [2.20.6](https://github.com/aws-amplify/amplify-cli/compare/amplify-app@2.20.5...amplify-app@2.20.6) (2020-12-31)
+
+**Note:** Version bump only for package amplify-app
+
+
+
+
+
+## [2.20.5](https://github.com/aws-amplify/amplify-cli/compare/amplify-app@2.20.4...amplify-app@2.20.5) (2020-12-21)
+
+**Note:** Version bump only for package amplify-app
+
+
+
+
+
+## [2.20.4](https://github.com/aws-amplify/amplify-cli/compare/amplify-app@2.20.3...amplify-app@2.20.4) (2020-12-16)
+
+**Note:** Version bump only for package amplify-app
+
+
+
+
+
+## [2.20.3](https://github.com/aws-amplify/amplify-cli/compare/amplify-app@2.20.2...amplify-app@2.20.3) (2020-12-11)
+
+**Note:** Version bump only for package amplify-app
+
+
+
+
+
+## [2.20.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-app@2.20.1...amplify-app@2.20.2) (2020-12-09)
+
+
+
+## 4.38.1 (2020-12-08)
+
+
+### Bug Fixes
+
+* check amplify/backend to determine project existence ([#6115](https://github.com/aws-amplify/amplify-cli/issues/6115)) ([4135a24](https://github.com/aws-amplify/amplify-cli/commit/4135a2428027d801c78e6877d0936f9753ba83e4))
+
+
+
+
+
+## [2.20.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-app@2.20.0...amplify-app@2.20.1) (2020-12-07)
+
+
+### Bug Fixes
+
+* bump min version of cli required by amplify-app ([#6056](https://github.com/aws-amplify/amplify-cli/issues/6056)) ([fff597b](https://github.com/aws-amplify/amplify-cli/commit/fff597bb75d4318a97f5a9ed2c5671ab884c3084))
+* use profile as key when asking for profile ([#5861](https://github.com/aws-amplify/amplify-cli/issues/5861)) ([b67278d](https://github.com/aws-amplify/amplify-cli/commit/b67278ddb9e85dfa709885b84adf937450346c42)), closes [#5394](https://github.com/aws-amplify/amplify-cli/issues/5394)
+
+
+
+
+
 # [2.20.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-app@2.19.2...amplify-app@2.20.0) (2020-11-30)
 
 

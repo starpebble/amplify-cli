@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.4](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.13.3...amplify-e2e-core@1.13.4) (2021-01-08)
+
+
+### Bug Fixes
+
+* removes nodeModules from currentCloudBackend ([#6261](https://github.com/aws-amplify/amplify-cli/issues/6261)) ([db9dca9](https://github.com/aws-amplify/amplify-cli/commit/db9dca9db019494a0c68f42d9ffeb92d0b9b2b43))
+
+
+
+
+
+## [1.13.3](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.13.2...amplify-e2e-core@1.13.3) (2020-12-31)
+
+**Note:** Version bump only for package amplify-e2e-core
+
+
+
+
+
+## [1.13.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.13.1...amplify-e2e-core@1.13.2) (2020-12-21)
+
+**Note:** Version bump only for package amplify-e2e-core
+
+
+
+
+
+## [1.13.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.13.0...amplify-e2e-core@1.13.1) (2020-12-16)
+
+**Note:** Version bump only for package amplify-e2e-core
+
+
+
+
+
+# [1.13.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.12.0...amplify-e2e-core@1.13.0) (2020-12-11)
+
+
+### Features
+
+* container-based deployments([#5727](https://github.com/aws-amplify/amplify-cli/issues/5727)) ([fad6377](https://github.com/aws-amplify/amplify-cli/commit/fad6377bd384862ca4429cb1a83eee90efd62b58))
+
+
+
+
+
+# [1.12.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.11.0...amplify-e2e-core@1.12.0) (2020-12-07)
+
+
+### Features
+
+* add support for multiple [@key](https://github.com/key) changes in same [@model](https://github.com/model) ([#6044](https://github.com/aws-amplify/amplify-cli/issues/6044)) ([e574637](https://github.com/aws-amplify/amplify-cli/commit/e5746379ea1330c53dacb55e8f6a9de7b17b55ae))
+
+
+
+
+
 # [1.11.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.10.3...amplify-e2e-core@1.11.0) (2020-11-30)
 
 

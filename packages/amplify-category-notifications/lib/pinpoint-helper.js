@@ -1,6 +1,6 @@
-const open = require('open');
 const ora = require('ora');
 const inquirer = require('inquirer');
+const { open } = require('amplify-cli-core');
 
 const constants = require('./constants');
 const authHelper = require('./auth-helper');
@@ -137,6 +137,7 @@ async function deletePinpointApp(context) {
     pinpointApp = scanCategoryMetaForPinpoint(amplifyMeta[constants.AnalyticsCategoryName]);
   }
   if (pinpointApp) {
+    await authHelper.deleteRolePolicy(context);
     pinpointApp = await deleteApp(context, pinpointApp.Id);
     removeCategoryMetaForPinpoint(amplifyMeta[constants.CategoryName], pinpointApp.Id);
     removeCategoryMetaForPinpoint(amplifyMeta[constants.AnalyticsCategoryName], pinpointApp.Id);

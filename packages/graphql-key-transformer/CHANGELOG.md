@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.22.3](https://github.com/aws-amplify/amplify-cli/compare/graphql-key-transformer@2.22.2...graphql-key-transformer@2.22.3) (2021-03-23)
+
+
+### Bug Fixes
+
+* **graphql-key-transformer:** check if lastSync == 0 ([#6859](https://github.com/aws-amplify/amplify-cli/issues/6859)) ([f3b1d1d](https://github.com/aws-amplify/amplify-cli/commit/f3b1d1d66fa2705a6ee73b5732c3919cd77632f7))
+
+
+
+
+
+## [2.22.2](https://github.com/aws-amplify/amplify-cli/compare/graphql-key-transformer@2.22.1...graphql-key-transformer@2.22.2) (2021-03-11)
+
+
+### Bug Fixes
+
+* gql compiler fix for user defined mutation ([#6059](https://github.com/aws-amplify/amplify-cli/issues/6059)) ([063d84f](https://github.com/aws-amplify/amplify-cli/commit/063d84ff3d31762a4434f3146623132536f4667d))
+
+
+
+
+
+## [2.22.1](https://github.com/aws-amplify/amplify-cli/compare/graphql-key-transformer@2.22.0...graphql-key-transformer@2.22.1) (2021-03-05)
+
+**Note:** Version bump only for package graphql-key-transformer
+
+
+
+
+
+# [2.22.0](https://github.com/aws-amplify/amplify-cli/compare/graphql-key-transformer@2.21.3...graphql-key-transformer@2.22.0) (2021-02-26)
+
+
+### Features
+
+* **graphql-key-transformer:** only modify GSI sort key when present ([#6742](https://github.com/aws-amplify/amplify-cli/issues/6742)) ([7cbd396](https://github.com/aws-amplify/amplify-cli/commit/7cbd39632181a5bc323ac3ad3a835a358c74adf6))
+
+
+
+
+
+## [2.21.3](https://github.com/aws-amplify/amplify-cli/compare/graphql-key-transformer@2.21.2...graphql-key-transformer@2.21.3) (2021-02-24)
+
+
+### Bug Fixes
+
+* **graphql-key-transformer:** fix delta with selective sync query ([#6664](https://github.com/aws-amplify/amplify-cli/issues/6664)) ([c326c9c](https://github.com/aws-amplify/amplify-cli/commit/c326c9ccc4298dd5479b49e222df6f67e7a2947b))
+* **graphql-key-transformer:** fix delta with selective sync query ([#6683](https://github.com/aws-amplify/amplify-cli/issues/6683)) ([e6f0cd4](https://github.com/aws-amplify/amplify-cli/commit/e6f0cd4e8c2f625559da2090c57be598a99d6b0d))
+
+
+
+
+
+## [2.21.2](https://github.com/aws-amplify/amplify-cli/compare/graphql-key-transformer@2.21.1...graphql-key-transformer@2.21.2) (2021-02-17)
+
+**Note:** Version bump only for package graphql-key-transformer
+
+
+
+
+
+## [2.21.1](https://github.com/aws-amplify/amplify-cli/compare/graphql-key-transformer@2.21.0...graphql-key-transformer@2.21.1) (2021-02-11)
+
+**Note:** Version bump only for package graphql-key-transformer
+
+
+
+
+
+# [2.21.0](https://github.com/aws-amplify/amplify-cli/compare/graphql-key-transformer@2.20.4...graphql-key-transformer@2.21.0) (2021-02-10)
+
+
+### Features
+
+* **graphql-key-transformer:** change default to add GSIs when using [@key](https://github.com/key) ([#5648](https://github.com/aws-amplify/amplify-cli/issues/5648)) ([4287c63](https://github.com/aws-amplify/amplify-cli/commit/4287c630295c304c7ff8343922926b4830b75cd4))
+
+
+
+
+
 ## [2.20.4](https://github.com/aws-amplify/amplify-cli/compare/graphql-key-transformer@2.20.3...graphql-key-transformer@2.20.4) (2020-12-16)
 
 

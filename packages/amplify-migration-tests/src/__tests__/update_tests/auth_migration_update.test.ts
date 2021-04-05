@@ -1,15 +1,18 @@
-import { initJSProjectWithProfile, deleteProject, amplifyPushAuth } from 'amplify-e2e-core';
-import { join } from 'path';
-import * as fs from 'fs-extra';
-import { addAuthWithCustomTrigger, updateAuthWithoutCustomTrigger } from 'amplify-e2e-core';
 import {
+  addAuthWithCustomTrigger,
+  amplifyPushAuth,
+  createNewProjectDir,
+  deleteProject,
+  deleteProjectDir,
+  getLambdaFunction,
+  getProjectMeta,
   getUserPool,
   getUserPoolClients,
-  getLambdaFunction,
-  createNewProjectDir,
-  deleteProjectDir,
-  getProjectMeta,
+  updateAuthWithoutCustomTrigger,
 } from 'amplify-e2e-core';
+import * as fs from 'fs-extra';
+import { join } from 'path';
+import { initJSProjectWithProfile } from '../../migration-helpers';
 
 describe('amplify auth migration', () => {
   let projRoot: string;
@@ -45,7 +48,7 @@ describe('amplify auth migration', () => {
     expect(userPool.UserPool).toBeDefined();
     expect(clients).toHaveLength(2);
     expect(lambdaFunction).toBeDefined();
-    expect(lambdaFunction.Configuration.Environment.Variables.MODULES).toEqual('email-filter-blacklist,custom');
+    expect(lambdaFunction.Configuration.Environment.Variables.MODULES).toEqual('email-filter-denylist,custom');
 
     // update and push with codebase
     await updateAuthWithoutCustomTrigger(projRoot, { testingWithLatestCodebase: true });
@@ -53,7 +56,7 @@ describe('amplify auth migration', () => {
     const updatedFunction = await getLambdaFunction(functionName, meta.providers.awscloudformation.Region);
     const updatedDirContents = fs.readdirSync(`${projRoot}/amplify/backend/function/${Object.keys(meta.auth)[0]}PreSignup/src`);
     expect(updatedDirContents.includes('custom.js')).toBeFalsy();
-    expect(updatedDirContents.includes('email-filter-blacklist.js')).toBeTruthy();
-    expect(updatedFunction.Configuration.Environment.Variables.MODULES).toEqual('email-filter-blacklist');
+    expect(updatedDirContents.includes('email-filter-denylist.js')).toBeTruthy();
+    expect(updatedFunction.Configuration.Environment.Variables.MODULES).toEqual('email-filter-denylist');
   });
 });

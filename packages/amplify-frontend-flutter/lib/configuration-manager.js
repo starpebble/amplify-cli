@@ -30,6 +30,21 @@ function normalizeInputParams(context) {
   context.exeInfo.inputParams[constants.Label] = inputParams;
 }
 
+function displayFrontendDefaults(context) {
+  context.print.info(`| App type: flutter`);
+  context.print.info(`| Configuration file location: ${constants.defaultResDir}`);
+}
+
+function setFrontendDefaults(context) {
+  context.exeInfo.inputParams.amplify.frontend = constants.Label;
+
+  let inputParams = {};
+  context.exeInfo.inputParams[constants.Label] = inputParams;
+  inputParams.config = {};
+  inputParams.config.ResDir = constants.defaultResDir;
+  context.exeInfo.inputParams[constants.Label] = inputParams;
+}
+
 async function confirmConfiguration(context) {
   if (!context.exeInfo.projectConfig[constants.Label]) {
     context.exeInfo.projectConfig[constants.Label] = {};
@@ -44,14 +59,6 @@ async function confirmConfiguration(context) {
   } else if (!context.exeInfo.inputParams.yes) {
     context.print.info('Please tell us about your project');
     const { config } = context.exeInfo.projectConfig[constants.Label];
-
-    context.print.warning('⚠️  Flutter project support in the Amplify CLI is in DEVELOPER PREVIEW.');
-    context.print.warning('Only the following categories are supported:');
-    context.print.warning(' * Auth');
-    context.print.warning(' * Analytics (Amazon Pinpoint only)');
-    context.print.warning(' * API (GraphQL only)');
-    context.print.warning(' * Storage');
-
     const configurationSettings = [
       {
         type: 'input',
@@ -69,4 +76,6 @@ module.exports = {
   init,
   onInitSuccessful,
   configure,
+  displayFrontendDefaults,
+  setFrontendDefaults,
 };

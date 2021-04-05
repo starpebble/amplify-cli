@@ -3,11 +3,11 @@ const { getS3Client, uploadFile } = require('./file-uploader');
 const fs = require('fs-extra');
 const inquirer = require('inquirer');
 const path = require('path');
-const open = require('open');
 
 const constants = require('../constants');
 
 const { EcsAlbStack, NETWORK_STACK_LOGICAL_ID, DEPLOYMENT_MECHANISM, processDockerConfig } = require('amplify-category-api');
+const { open } = require('amplify-cli-core');
 
 const serviceName = 'ElasticContainer';
 const categoryName = 'hosting';
@@ -113,7 +113,7 @@ function srcDirectoryHasDockerfileOrCompose(src) {
   return files.has('Dockerfile') || files.has('docker-compose.yaml') || files.has('docker-compose.yml');
 }
 
-async function generateHostingResources(
+export async function generateHostingResources(
   context,
   {
     domain,

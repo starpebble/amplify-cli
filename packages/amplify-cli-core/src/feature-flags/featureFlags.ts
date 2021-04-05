@@ -539,6 +539,12 @@ export class FeatureFlags {
         defaultValueForExistingProjects: false,
         defaultValueForNewProjects: true,
       },
+      {
+        name: 'skipOverrideMutationInputTypes',
+        type: 'boolean',
+        defaultValueForExistingProjects: false,
+        defaultValueForNewProjects: true,
+      },
     ]);
 
     this.registerFlag('frontend-ios', [
@@ -557,11 +563,41 @@ export class FeatureFlags {
         defaultValueForExistingProjects: false,
         defaultValueForNewProjects: true,
       },
+      {
+        name: 'useInclusiveTerminology',
+        type: 'boolean',
+        defaultValueForExistingProjects: false,
+        defaultValueForNewProjects: true,
+      },
     ]);
 
     this.registerFlag('codegen', [
       {
         name: 'useAppSyncModelgenPlugin',
+        type: 'boolean',
+        defaultValueForExistingProjects: false,
+        defaultValueForNewProjects: true,
+      },
+      {
+        name: 'useDocsGeneratorPlugin',
+        type: 'boolean',
+        defaultValueForExistingProjects: false,
+        defaultValueForNewProjects: true,
+      },
+      {
+        name: 'useTypesGeneratorPlugin',
+        type: 'boolean',
+        defaultValueForExistingProjects: false,
+        defaultValueForNewProjects: true,
+      },
+      {
+        name: 'cleanGeneratedModelsDirectory',
+        type: 'boolean',
+        defaultValueForExistingProjects: false,
+        defaultValueForNewProjects: true,
+      },
+      {
+        name: 'retainCaseStyle',
         type: 'boolean',
         defaultValueForExistingProjects: false,
         defaultValueForNewProjects: true,
@@ -574,7 +610,7 @@ export class FeatureFlags {
         type: 'boolean',
         defaultValueForExistingProjects: false,
         defaultValueForNewProjects: true,
-      }
+      },
     ]);
   };
 }

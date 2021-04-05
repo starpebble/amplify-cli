@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.10.8](https://github.com/aws-amplify/amplify-cli/compare/graphql-elasticsearch-transformer@4.10.7...graphql-elasticsearch-transformer@4.10.8) (2021-03-23)
+
+**Note:** Version bump only for package graphql-elasticsearch-transformer
+
+
+
+
+
+## [4.10.7](https://github.com/aws-amplify/amplify-cli/compare/graphql-elasticsearch-transformer@4.10.6...graphql-elasticsearch-transformer@4.10.7) (2021-03-11)
+
+**Note:** Version bump only for package graphql-elasticsearch-transformer
+
+
+
+
+
+## [4.10.6](https://github.com/aws-amplify/amplify-cli/compare/graphql-elasticsearch-transformer@4.10.5...graphql-elasticsearch-transformer@4.10.6) (2021-03-05)
+
+**Note:** Version bump only for package graphql-elasticsearch-transformer
+
+
+
+
+
+## [4.10.5](https://github.com/aws-amplify/amplify-cli/compare/graphql-elasticsearch-transformer@4.10.4...graphql-elasticsearch-transformer@4.10.5) (2021-02-26)
+
+**Note:** Version bump only for package graphql-elasticsearch-transformer
+
+
+
+
+
+## [4.10.4](https://github.com/aws-amplify/amplify-cli/compare/graphql-elasticsearch-transformer@4.10.3...graphql-elasticsearch-transformer@4.10.4) (2021-02-24)
+
+**Note:** Version bump only for package graphql-elasticsearch-transformer
+
+
+
+
+
+## [4.10.3](https://github.com/aws-amplify/amplify-cli/compare/graphql-elasticsearch-transformer@4.10.2...graphql-elasticsearch-transformer@4.10.3) (2021-02-17)
+
+**Note:** Version bump only for package graphql-elasticsearch-transformer
+
+
+
+
+
+## [4.10.2](https://github.com/aws-amplify/amplify-cli/compare/graphql-elasticsearch-transformer@4.10.1...graphql-elasticsearch-transformer@4.10.2) (2021-02-11)
+
+**Note:** Version bump only for package graphql-elasticsearch-transformer
+
+
+
+
+
+## [4.10.1](https://github.com/aws-amplify/amplify-cli/compare/graphql-elasticsearch-transformer@4.10.0...graphql-elasticsearch-transformer@4.10.1) (2021-02-10)
+
+**Note:** Version bump only for package graphql-elasticsearch-transformer
+
+
+
+
+
 # [4.10.0](https://github.com/aws-amplify/amplify-cli/compare/graphql-elasticsearch-transformer@4.9.4...graphql-elasticsearch-transformer@4.10.0) (2021-01-08)
 
 

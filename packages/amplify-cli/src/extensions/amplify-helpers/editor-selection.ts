@@ -8,6 +8,14 @@ export const editors = [
     value: 'vscode',
   },
   {
+    name: 'Android Studio',
+    value: 'android-studio',
+  },
+  {
+    name: 'Xcode (Mac OS only)',
+    value: 'xcode',
+  },
+  {
     name: 'Atom Editor',
     value: 'atom',
   },

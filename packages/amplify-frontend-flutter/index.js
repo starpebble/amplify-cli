@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs-extra');
 
 const initializer = require('./lib/initializer');
 const configManager = require('./lib/configuration-manager');
@@ -7,6 +8,8 @@ const constants = require('./lib/constants');
 const { createAmplifyConfig, createAWSConfig, deleteAmplifyConfig } = require('./lib/frontend-config-creator');
 
 const pluginName = 'flutter';
+
+const emptyAmplifyConfigurationPath = path.join(__dirname, 'lib', 'amplifyconfiguration.empty.dart');
 
 function scanProject(projectPath) {
   return projectScanner.run(projectPath);
@@ -39,6 +42,14 @@ function run(context) {
   return context;
 }
 
+function displayFrontendDefaults(context) {
+  configManager.displayFrontendDefaults(context);
+}
+
+function setFrontendDefaults(context) {
+  configManager.setFrontendDefaults(context);
+}
+
 async function executeAmplifyCommand(context) {
   let commandPath = path.normalize(path.join(__dirname, 'commands'));
   if (context.input.command === 'help') {
@@ -56,6 +67,13 @@ async function handleAmplifyEvent(context, args) {
   context.print.info(`Received event args ${args}`);
 }
 
+async function initializeAmplifyConfiguration(destDir) {
+  const dest = path.resolve(destDir, 'amplifyconfiguration.dart');
+  if (!fs.existsSync(dest)) {
+    fs.copySync(emptyAmplifyConfigurationPath, dest);
+  }
+}
+
 module.exports = {
   constants,
   scanProject,
@@ -64,8 +82,11 @@ module.exports = {
   configure,
   publish,
   run,
+  displayFrontendDefaults,
+  setFrontendDefaults,
   createFrontendConfigs,
   executeAmplifyCommand,
   handleAmplifyEvent,
   deleteConfig: deleteAmplifyConfig,
+  initializeAmplifyConfiguration,
 };

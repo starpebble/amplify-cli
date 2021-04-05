@@ -3,6 +3,95 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.30.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-category-api@2.29.5...amplify-category-api@2.30.0) (2021-03-23)
+
+
+### Bug Fixes
+
+* **amplify-category-api:** mantain ff in iam api policy ([#6723](https://github.com/aws-amplify/amplify-cli/issues/6723)) ([51e5e1b](https://github.com/aws-amplify/amplify-cli/commit/51e5e1b53514a05788dd824a48991c0db0b9705d)), closes [#6675](https://github.com/aws-amplify/amplify-cli/issues/6675)
+
+
+### Features
+
+* allows adding graphql datasource with an empty graphql schema file ([#4464](https://github.com/aws-amplify/amplify-cli/issues/4464)) ([2b71a2d](https://github.com/aws-amplify/amplify-cli/commit/2b71a2df31585ad06674417b7003dfb70d5b785d))
+
+
+
+
+
+## [2.29.5](https://github.com/aws-amplify/amplify-cli/compare/amplify-category-api@2.29.4...amplify-category-api@2.29.5) (2021-03-11)
+
+
+### Reverts
+
+* Revert "docs: add readme to vtl resolvers directory (#6718)" (#6845) ([1b67327](https://github.com/aws-amplify/amplify-cli/commit/1b67327f4885c611708c73256094456ab95b67ef)), closes [#6718](https://github.com/aws-amplify/amplify-cli/issues/6718) [#6845](https://github.com/aws-amplify/amplify-cli/issues/6845)
+
+
+
+
+
+## [2.29.4](https://github.com/aws-amplify/amplify-cli/compare/amplify-category-api@2.29.3...amplify-category-api@2.29.4) (2021-03-05)
+
+
+### Bug Fixes
+
+* wording: Enable, instead of Configure, conflict detection ([#6708](https://github.com/aws-amplify/amplify-cli/issues/6708)) ([dac6ae9](https://github.com/aws-amplify/amplify-cli/commit/dac6ae94af47dd01da25ea4f61efd5442cb4c06b))
+
+
+
+
+
+## [2.29.3](https://github.com/aws-amplify/amplify-cli/compare/amplify-category-api@2.29.2...amplify-category-api@2.29.3) (2021-02-26)
+
+**Note:** Version bump only for package amplify-category-api
+
+
+
+
+
+## [2.29.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-category-api@2.29.1...amplify-category-api@2.29.2) (2021-02-24)
+
+**Note:** Version bump only for package amplify-category-api
+
+
+
+
+
+## [2.29.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-category-api@2.29.0...amplify-category-api@2.29.1) (2021-02-17)
+
+**Note:** Version bump only for package amplify-category-api
+
+
+
+
+
+# [2.29.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-category-api@2.28.3...amplify-category-api@2.29.0) (2021-02-11)
+
+
+### Bug Fixes
+
+* sets policy resource name in api update flow ([328abac](https://github.com/aws-amplify/amplify-cli/commit/328abacd81d03dbae8b0c0246536c465a7954c1e))
+
+
+### Features
+
+* dont open urls when CLI is running in CI ([#6503](https://github.com/aws-amplify/amplify-cli/issues/6503)) ([27546a7](https://github.com/aws-amplify/amplify-cli/commit/27546a78159ea95c636dbbd094fe6a4f7fb8f8f4)), closes [#5973](https://github.com/aws-amplify/amplify-cli/issues/5973)
+
+
+
+
+
+## [2.28.3](https://github.com/aws-amplify/amplify-cli/compare/amplify-category-api@2.28.2...amplify-category-api@2.28.3) (2021-02-10)
+
+
+### Bug Fixes
+
+* fix appsync permission assignment from functions ([#5342](https://github.com/aws-amplify/amplify-cli/issues/5342)) ([b2e2dd0](https://github.com/aws-amplify/amplify-cli/commit/b2e2dd0071c1a451ba032cf7f8cfe7cf6381a96e))
+
+
+
+
+
 ## [2.28.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-category-api@2.28.1...amplify-category-api@2.28.2) (2021-01-08)
 
 

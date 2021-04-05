@@ -1,4 +1,5 @@
 import ora from 'ora';
+import chalk from 'chalk';
 import { FeatureFlags } from 'amplify-cli-core';
 import { removeEnvFromCloud } from './remove-env-from-cloud';
 import { getFrontendPlugins } from './get-frontend-plugins';
@@ -67,9 +68,11 @@ export async function getConfirmation(context, env?) {
   const environmentText = env ? `'${env}' environment` : 'all the environments';
   return {
     proceed: await context.amplify.confirmPrompt(
-      `Are you sure you want to continue? This CANNOT be undone. (This would delete ${environmentText} of the project from the cloud${
-        env ? '' : ' and wipe out all the local files created by Amplify CLI'
-      })`,
+      chalk.red(
+        `Are you sure you want to continue? This CANNOT be undone. (This will delete ${environmentText} of the project from the cloud${
+          env ? '' : ' and wipe out all the local files created by Amplify CLI'
+        })`,
+      ),
       false,
     ),
     // Placeholder for later selective deletes

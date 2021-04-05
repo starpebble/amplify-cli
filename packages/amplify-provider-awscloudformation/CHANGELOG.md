@@ -3,6 +3,160 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.40.3](https://github.com/aws-amplify/amplify-cli/compare/amplify-provider-awscloudformation@4.40.2...amplify-provider-awscloudformation@4.40.3) (2021-03-23)
+
+
+### Bug Fixes
+
+* detect changes in dockerfile ([#6495](https://github.com/aws-amplify/amplify-cli/issues/6495)) ([2333dec](https://github.com/aws-amplify/amplify-cli/commit/2333decdd61c2a5421a7030723f20d05f3c00269)), closes [#6359](https://github.com/aws-amplify/amplify-cli/issues/6359)
+* do not attempt to modify a file when reading it ([#5783](https://github.com/aws-amplify/amplify-cli/issues/5783)) ([2cfa2b5](https://github.com/aws-amplify/amplify-cli/commit/2cfa2b58d0469dce8a5644b3280480196d995ea4))
+* **amplify-provider-awscloudformation:** Fix amplify configure opening wrong IAM User Creation URL in Windows & WSL ([#6908](https://github.com/aws-amplify/amplify-cli/issues/6908)) ([a5ad84d](https://github.com/aws-amplify/amplify-cli/commit/a5ad84d28aaa2daddd9ddb6df7bee93e5d2bef73))
+* **amplify-provider-awscloudformation:** reverse asc events ([#6803](https://github.com/aws-amplify/amplify-cli/issues/6803)) ([ae02803](https://github.com/aws-amplify/amplify-cli/commit/ae0280302f7a6632f74f1184a4b928319965df55)), closes [#6578](https://github.com/aws-amplify/amplify-cli/issues/6578)
+* stop sanity check when resource is in create status ([#6349](https://github.com/aws-amplify/amplify-cli/issues/6349)) ([45e0246](https://github.com/aws-amplify/amplify-cli/commit/45e0246306136e513c735899b030f94bb004a330))
+
+
+
+
+
+## [4.40.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-provider-awscloudformation@4.40.1...amplify-provider-awscloudformation@4.40.2) (2021-03-12)
+
+
+
+## 4.45.2 (2021-03-12)
+
+
+### Bug Fixes
+
+* bump codegen versions ([#6871](https://github.com/aws-amplify/amplify-cli/issues/6871)) ([e53175d](https://github.com/aws-amplify/amplify-cli/commit/e53175d96136fba57662b1a035d3cea4a65a7601))
+
+
+
+
+
+## [4.40.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-provider-awscloudformation@4.40.0...amplify-provider-awscloudformation@4.40.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* **amplify-provider-awscloudformation:** handle throttling ([8ceb271](https://github.com/aws-amplify/amplify-cli/commit/8ceb27167e41d8c329b35fdc0f380e9e810fb5c0))
+
+
+
+
+
+# [4.40.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-provider-awscloudformation@4.39.2...amplify-provider-awscloudformation@4.40.0) (2021-03-05)
+
+
+### Bug Fixes
+
+* **amplify-codegen:** update dependency on amplify-codegen to latest ([#6796](https://github.com/aws-amplify/amplify-cli/issues/6796)) ([33f4c15](https://github.com/aws-amplify/amplify-cli/commit/33f4c156153ef6398659dd5c24a7de8b0d9b13f2))
+* **amplify-provider-awscloudformation:** specify 127.0.0.1 as hostname ([#6780](https://github.com/aws-amplify/amplify-cli/issues/6780)) ([db8b557](https://github.com/aws-amplify/amplify-cli/commit/db8b5575a7c04a46c59a06db6753b55d5f9e4e19))
+* add check for undefined attributes during push ([#6687](https://github.com/aws-amplify/amplify-cli/issues/6687)) ([08da6b2](https://github.com/aws-amplify/amplify-cli/commit/08da6b2783385168f01ab70300980d61548d7402))
+
+
+### Features
+
+* generate datastore models for Admin CMS to consume post-deployment from CLI ([#6771](https://github.com/aws-amplify/amplify-cli/issues/6771)) ([0e74b65](https://github.com/aws-amplify/amplify-cli/commit/0e74b657491e53eb04376bb727eb442b59b2cf4c))
+* remove OAuth prompt from pull and new env ([#6739](https://github.com/aws-amplify/amplify-cli/issues/6739)) ([8ff15a6](https://github.com/aws-amplify/amplify-cli/commit/8ff15a6ea2c3c687f0344fb4e17547097cd575ea))
+* **amplify-codegen:** Migrate codegen ([#6730](https://github.com/aws-amplify/amplify-cli/issues/6730)) ([9c7a69a](https://github.com/aws-amplify/amplify-cli/commit/9c7a69a7d72e31c42572f3ebf2131c6053f96abd))
+
+
+
+
+
+## [4.39.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-provider-awscloudformation@4.39.1...amplify-provider-awscloudformation@4.39.2) (2021-02-26)
+
+**Note:** Version bump only for package amplify-provider-awscloudformation
+
+
+
+
+
+## [4.39.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-provider-awscloudformation@4.39.0...amplify-provider-awscloudformation@4.39.1) (2021-02-24)
+
+
+
+## 4.44.1 (2021-02-24)
+
+
+### Bug Fixes
+
+* insert hostedUIProviderCreds empty array on hostedUI ([#6485](https://github.com/aws-amplify/amplify-cli/issues/6485)) ([5ebee51](https://github.com/aws-amplify/amplify-cli/commit/5ebee516373c0544f1400f054eb382bb5b887253))
+* **amplify-provider-awscloudformation:** Amplify Admin authentication token refresh ([#6721](https://github.com/aws-amplify/amplify-cli/issues/6721)) ([bda37b4](https://github.com/aws-amplify/amplify-cli/commit/bda37b45939266c700fc8cab6b17807ea12a2c32))
+* **amplify-provider-awscloudformation:** use right creds when waiting for ddb table ([#6646](https://github.com/aws-amplify/amplify-cli/issues/6646)) ([e746d2a](https://github.com/aws-amplify/amplify-cli/commit/e746d2a215a596603aa5fe0d5b38e1bae6d14c08))
+
+
+### Reverts
+
+* Revert "fix: insert hostedUIProviderCreds empty array on hostedUI (#6485)" (#6682) ([4185595](https://github.com/aws-amplify/amplify-cli/commit/41855953b074fe4179a68a4acaf9796515e12688)), closes [#6485](https://github.com/aws-amplify/amplify-cli/issues/6485) [#6682](https://github.com/aws-amplify/amplify-cli/issues/6682)
+
+
+
+
+
+# [4.39.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-provider-awscloudformation@4.38.0...amplify-provider-awscloudformation@4.39.0) (2021-02-17)
+
+
+
+# 4.44.0 (2021-02-16)
+
+
+### Bug Fixes
+
+* mock bug fixes and e2e test updates ([#6626](https://github.com/aws-amplify/amplify-cli/issues/6626)) ([af76446](https://github.com/aws-amplify/amplify-cli/commit/af76446d18bf626ca5f91c3ad41081175c959807))
+* **amplify-provider-awscloudformation:** admin token refresh, configure project ([#6629](https://github.com/aws-amplify/amplify-cli/issues/6629)) ([38dab98](https://github.com/aws-amplify/amplify-cli/commit/38dab980fd7a80962d028fe54abcfb6cbaea8de3))
+
+
+### Features
+
+* fully populate mock function environment variables ([#6551](https://github.com/aws-amplify/amplify-cli/issues/6551)) ([dceb13a](https://github.com/aws-amplify/amplify-cli/commit/dceb13a76a85a05940078868a3e2e1ca85656938))
+* Separate prod and dev lambda function builds ([#6494](https://github.com/aws-amplify/amplify-cli/issues/6494)) ([2977c6a](https://github.com/aws-amplify/amplify-cli/commit/2977c6a886b33a38ef46f898a2adc1ffdb6d228b))
+
+
+
+
+
+# [4.38.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-provider-awscloudformation@4.37.0...amplify-provider-awscloudformation@4.38.0) (2021-02-11)
+
+
+### Features
+
+* dont open urls when CLI is running in CI ([#6503](https://github.com/aws-amplify/amplify-cli/issues/6503)) ([27546a7](https://github.com/aws-amplify/amplify-cli/commit/27546a78159ea95c636dbbd094fe6a4f7fb8f8f4)), closes [#5973](https://github.com/aws-amplify/amplify-cli/issues/5973)
+
+
+
+
+
+# [4.37.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-provider-awscloudformation@4.36.1...amplify-provider-awscloudformation@4.37.0) (2021-02-10)
+
+
+### Bug Fixes
+
+* **amplify-category-function:** use ref for S3Bucket and S3Key in CFN ([#6358](https://github.com/aws-amplify/amplify-cli/issues/6358)) ([84a141a](https://github.com/aws-amplify/amplify-cli/commit/84a141ac4812d95c27b14c8d9f81e4a5c8fadef8))
+* add missing check for undefined ([#6543](https://github.com/aws-amplify/amplify-cli/issues/6543)) ([31b980d](https://github.com/aws-amplify/amplify-cli/commit/31b980dcc079d8b9d045ecd3962797588dcab729))
+* check --yes flag instead of CI env vars, clean up test imports ([#6541](https://github.com/aws-amplify/amplify-cli/issues/6541)) ([989624e](https://github.com/aws-amplify/amplify-cli/commit/989624e8cba524d989982a7389cd43eb8dcd8760))
+* support choosing AWS authentication flow when admin UI is enabled ([#6433](https://github.com/aws-amplify/amplify-cli/issues/6433)) ([3bf56a8](https://github.com/aws-amplify/amplify-cli/commit/3bf56a8e2e5be67dd861a55807ecc94bd561b4a2))
+* **amplify-provider-awscloudformation:** ask auth flow type for new envs ([#6569](https://github.com/aws-amplify/amplify-cli/issues/6569)) ([71e8062](https://github.com/aws-amplify/amplify-cli/commit/71e80627f9c999dc6cd46390f82d83142fe434c8))
+* **amplify-provider-awscloudformation:** check proj config b4 env vars ([#6565](https://github.com/aws-amplify/amplify-cli/issues/6565)) ([a66bd14](https://github.com/aws-amplify/amplify-cli/commit/a66bd14ee001e0bd20976ccf6141f17e9b43fe8e))
+* **amplify-provider-awscloudformation:** don't overwrite team-provider params ([#6479](https://github.com/aws-amplify/amplify-cli/issues/6479)) ([7f36c27](https://github.com/aws-amplify/amplify-cli/commit/7f36c273bacb880adda544ce45fb40d8757f3bb1))
+* **amplify-provider-awscloudformation:** fix hosting output ([#6041](https://github.com/aws-amplify/amplify-cli/issues/6041)) ([a2c1577](https://github.com/aws-amplify/amplify-cli/commit/a2c15774762c0f07b44ca9c91c57ef4eb3752f2b)), closes [#402](https://github.com/aws-amplify/amplify-cli/issues/402)
+* **amplify-provider-awscloudformation:** use prev deployment vars ([#6486](https://github.com/aws-amplify/amplify-cli/issues/6486)) ([39dfd27](https://github.com/aws-amplify/amplify-cli/commit/39dfd271bcf86b0ec424bb89c0bb38c0544d8d80))
+
+
+### Features
+
+* provide tags on create app ([#6381](https://github.com/aws-amplify/amplify-cli/issues/6381)) ([0530d1a](https://github.com/aws-amplify/amplify-cli/commit/0530d1af0e1c46bac45da2c0185d213058a28849))
+* **graphql-key-transformer:** change default to add GSIs when using [@key](https://github.com/key) ([#5648](https://github.com/aws-amplify/amplify-cli/issues/5648)) ([4287c63](https://github.com/aws-amplify/amplify-cli/commit/4287c630295c304c7ff8343922926b4830b75cd4))
+
+
+### Reverts
+
+* Revert "feat: provide tags on create app (#6381)" (#6456) ([5789b26](https://github.com/aws-amplify/amplify-cli/commit/5789b26036c4e93f569669e25c3cf2637b4abdb8)), closes [#6381](https://github.com/aws-amplify/amplify-cli/issues/6381) [#6456](https://github.com/aws-amplify/amplify-cli/issues/6456)
+
+
+
+
+
 ## [4.36.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-provider-awscloudformation@4.36.0...amplify-provider-awscloudformation@4.36.1) (2021-01-08)
 
 

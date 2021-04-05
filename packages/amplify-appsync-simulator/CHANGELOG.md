@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.25.6](https://github.com/aws-amplify/amplify-cli/compare/amplify-appsync-simulator@1.25.5...amplify-appsync-simulator@1.25.6) (2021-03-24)
+
+**Note:** Version bump only for package amplify-appsync-simulator
+
+
+
+
+
+## [1.25.5](https://github.com/aws-amplify/amplify-cli/compare/amplify-appsync-simulator@1.25.4...amplify-appsync-simulator@1.25.5) (2021-03-23)
+
+
+### Bug Fixes
+
+* **amplify-appsync-simulator:** graphql info selectionset ([#5602](https://github.com/aws-amplify/amplify-cli/issues/5602)) ([b73f438](https://github.com/aws-amplify/amplify-cli/commit/b73f438dc245bd4de9dc8374d2aa0fbb8a44c0fa))
+
+
+
+
+
+## [1.25.4](https://github.com/aws-amplify/amplify-cli/compare/amplify-appsync-simulator@1.25.3...amplify-appsync-simulator@1.25.4) (2021-03-05)
+
+
+### Bug Fixes
+
+* **amplify-appsync-simulator:** bail out early on exceptions ([#6663](https://github.com/aws-amplify/amplify-cli/issues/6663)) ([59d66fe](https://github.com/aws-amplify/amplify-cli/commit/59d66fe2653a4328d0a3114800b6a9ad11e796b1))
+* **amplify-appsync-simulator:** remove graphql-scalars dependency ([#6680](https://github.com/aws-amplify/amplify-cli/issues/6680)) ([f12c994](https://github.com/aws-amplify/amplify-cli/commit/f12c994f299a391a29cba2299f7854cbd2d97fbe))
+
+
+
+
+
+## [1.25.3](https://github.com/aws-amplify/amplify-cli/compare/amplify-appsync-simulator@1.25.2...amplify-appsync-simulator@1.25.3) (2021-02-24)
+
+**Note:** Version bump only for package amplify-appsync-simulator
+
+
+
+
+
+## [1.25.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-appsync-simulator@1.25.1...amplify-appsync-simulator@1.25.2) (2021-02-11)
+
+
+### Bug Fixes
+
+* **amplify-appsync-simulator:** expose errors from util.validate ([#6514](https://github.com/aws-amplify/amplify-cli/issues/6514)) ([8273037](https://github.com/aws-amplify/amplify-cli/commit/82730371ed0292e762d45313a7fa8de062c860dd)), closes [#6068](https://github.com/aws-amplify/amplify-cli/issues/6068)
+
+
+
+
+
+## [1.25.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-appsync-simulator@1.25.0...amplify-appsync-simulator@1.25.1) (2021-02-10)
+
+
+### Bug Fixes
+
+* **amplify-appsync-simulator:** allow token.iss ending with slash ([#6364](https://github.com/aws-amplify/amplify-cli/issues/6364)) ([cba5c4d](https://github.com/aws-amplify/amplify-cli/commit/cba5c4d82c186d61f01bf2a9552363289f7b6742))
+* **amplify-velocity-template:** support 'get' and 'set' of array vars ([#5747](https://github.com/aws-amplify/amplify-cli/issues/5747)) ([b5f917a](https://github.com/aws-amplify/amplify-cli/commit/b5f917a81524feb64ec7e674c6213cb47fd7794c)), closes [#5741](https://github.com/aws-amplify/amplify-cli/issues/5741)
+
+
+
+
+
 # [1.25.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-appsync-simulator@1.24.3...amplify-appsync-simulator@1.25.0) (2021-01-08)
 
 

@@ -3,7 +3,6 @@ import { dataStoreLearnMore } from '../sync-conflict-handler-assets/syncAssets';
 import inquirer from 'inquirer';
 import fs from 'fs-extra';
 import path from 'path';
-import open from 'open';
 import { rootAssetDir } from '../aws-constants';
 import { collectDirectivesByTypeNames, readProjectConfiguration, ConflictHandlerType } from 'graphql-transformer-core';
 import { category } from '../../../category-constants';
@@ -18,7 +17,9 @@ import {
   UnknownResourceTypeError,
   exitOnNextTick,
   stateManager,
+  FeatureFlags,
   $TSContext,
+  open,
 } from 'amplify-cli-core';
 
 const serviceName = 'AppSync';
@@ -361,7 +362,7 @@ async function askAdditionalQuestions(context, authConfig, defaultAuthType, mode
 async function askResolverConflictQuestion(context, modelTypes?) {
   let resolverConfig: any = {};
 
-  if (await context.prompt.confirm('Configure conflict detection?')) {
+  if (await context.prompt.confirm('Enable conflict detection?')) {
     const askConflictResolutionStrategy = async msg => {
       let conflictResolutionStrategy;
 
@@ -721,15 +722,39 @@ export const migrate = async context => {
   });
 };
 
-export const getIAMPolicies = (resourceName, operations, context) => {
-  let policy = {};
+export const getIAMPolicies = (resourceName: string, operations: string[], context: any) => {
+  let policy: any = {};
   const resources = [];
-
-  operations.forEach(operation => resources.push(buildPolicyResource(resourceName, operation)));
+  const actions = [];
+  if (!FeatureFlags.getBoolean('appSync.generateGraphQLPermissions')) {
+    operations.forEach(crudOption => {
+      switch (crudOption) {
+        case 'create':
+          actions.push('appsync:Create*', 'appsync:StartSchemaCreation', 'appsync:GraphQL');
+          resources.push(buildPolicyResource(resourceName, '/*'));
+          break;
+        case 'update':
+          actions.push('appsync:Update*');
+          break;
+        case 'read':
+          actions.push('appsync:Get*', 'appsync:List*');
+          break;
+        case 'delete':
+          actions.push('appsync:Delete*');
+          break;
+        default:
+          console.log(`${crudOption} not supported`);
+      }
+    });
+    resources.push(buildPolicyResource(resourceName, null));
+  } else {
+    actions.push('appsync:GraphQL');
+    operations.forEach(operation => resources.push(buildPolicyResource(resourceName, `/types/${operation}/*`)));
+  }
 
   policy = {
     Effect: 'Allow',
-    Action: ['appsync:GraphQL'],
+    Action: actions,
     Resource: resources,
   };
 
@@ -741,7 +766,7 @@ export const getIAMPolicies = (resourceName, operations, context) => {
   return { policy, attributes };
 };
 
-const buildPolicyResource = (resourceName, operation) => {
+const buildPolicyResource = (resourceName: string, path: string | null) => {
   return {
     'Fn::Join': [
       '',
@@ -754,8 +779,8 @@ const buildPolicyResource = (resourceName, operation) => {
         {
           Ref: `${category}${resourceName}GraphQLAPIIdOutput`,
         },
-        `/types/${operation}/*`,
-      ],
+        ...(path ? [path] : [])
+      ]
     ],
   };
 };

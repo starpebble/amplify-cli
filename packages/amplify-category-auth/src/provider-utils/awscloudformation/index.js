@@ -1,7 +1,6 @@
 const inquirer = require('inquirer');
-const open = require('open');
 const _ = require('lodash');
-const { stateManager } = require('amplify-cli-core');
+const { stateManager, open } = require('amplify-cli-core');
 const { getAuthResourceName } = require('../../utils/getAuthResourceName');
 const { copyCfnTemplate, saveResourceParameters } = require('./utils/synthesize-resources');
 const { ENV_SPECIFIC_PARAMS, AmplifyAdmin, UserPool, IdentityPool, BothPools, privateKeys } = require('./constants');
@@ -146,9 +145,12 @@ async function updateConfigOnEnvInit(context, category, service) {
   if (hostedUIProviderMeta) {
     currentEnvSpecificValues = getOAuthProviderKeys(currentEnvSpecificValues, resourceParams);
   }
-
+  const isPullingOrEnv =
+    context.input.command === 'pull' ||
+    (context.input.command === 'env' && context.input.subCommands && !context.input.subCommands.includes('add'));
+  // don't ask for env_specific params when checking out env or pulling
   srvcMetaData.inputs = srvcMetaData.inputs.filter(
-    input => ENV_SPECIFIC_PARAMS.includes(input.key) && !Object.keys(currentEnvSpecificValues).includes(input.key),
+    input => ENV_SPECIFIC_PARAMS.includes(input.key) && !Object.keys(currentEnvSpecificValues).includes(input.key) && !isPullingOrEnv,
   );
 
   const serviceWalkthroughSrc = `${__dirname}/service-walkthroughs/${serviceWalkthroughFilename}`;

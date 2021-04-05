@@ -53,17 +53,20 @@ export function headlessPull(
   });
 }
 
-export function authConfigPull(projectRootDirPath: string, params: { appId: string; envName: string }, settings: Object = {}) {
+export function authConfigPull(
+  projectRootDirPath: string,
+  params: { appId: string; envName: string },
+  settings: Object = {},
+): Promise<void> {
   const pullCommand: string[] = ['pull'];
   Object.keys(params).forEach(key => {
     if (params[key]) pullCommand.push(...[`--${key}`, JSON.stringify(params[key])]);
   });
   const s = { ...defaultSettings, ...settings };
-  const { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, GOOGLE_APP_ID, GOOGLE_APP_SECRET, AMAZON_APP_ID, AMAZON_APP_SECRET } = getSocialProviders();
   return new Promise((resolve, reject) => {
     spawn(util.getCLIPath(), pullCommand, { cwd: projectRootDirPath, stripColors: true })
-      .wait('Do you want to use an AWS profile?')
-      .sendLine('y')
+      .wait('Select the authentication method you want to use:')
+      .sendCarriageReturn()
       .wait('Please choose the profile you want to use')
       .sendLine(s.profileName)
       .wait('Choose your default editor:')
@@ -82,18 +85,6 @@ export function authConfigPull(projectRootDirPath: string, params: { appId: stri
       .sendLine(s.startCmd)
       .wait('Do you plan on modifying this backend?')
       .sendLine('y')
-      .wait('Enter your Facebook App ID for your OAuth flow:')
-      .sendLine(FACEBOOK_APP_ID)
-      .wait('Enter your Facebook App Secret for your OAuth flow:')
-      .sendLine(FACEBOOK_APP_SECRET)
-      .wait('Enter your Google Web Client ID for your OAuth flow:')
-      .sendLine(GOOGLE_APP_ID)
-      .wait('Enter your Google Web Client Secret for your OAuth flow:')
-      .sendLine(GOOGLE_APP_SECRET)
-      .wait('Enter your Amazon App ID for your OAuth flow:')
-      .sendLine(AMAZON_APP_ID)
-      .wait('Enter your Amazon App Secret for your OAuth flow:')
-      .sendLine(AMAZON_APP_SECRET)
       .wait('Successfully pulled backend environment dev from the cloud.')
       .run((err: Error) => {
         if (!err) {

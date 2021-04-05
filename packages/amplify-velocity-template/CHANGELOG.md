@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.4](https://github.com/aws-amplify/amplify-cli/compare/amplify-velocity-template@1.4.3...amplify-velocity-template@1.4.4) (2021-03-05)
+
+
+### Bug Fixes
+
+* **amplify-velocity-template:** propagate null block return values ([#6711](https://github.com/aws-amplify/amplify-cli/issues/6711)) ([168e126](https://github.com/aws-amplify/amplify-cli/commit/168e126c0f96c88e9ff6adf6fecd36caa884a72b))
+
+
+
+
+
+## [1.4.3](https://github.com/aws-amplify/amplify-cli/compare/amplify-velocity-template@1.4.2...amplify-velocity-template@1.4.3) (2021-02-10)
+
+
+### Bug Fixes
+
+* **amplify-velocity-template:** support 'get' and 'set' of array vars ([#5747](https://github.com/aws-amplify/amplify-cli/issues/5747)) ([b5f917a](https://github.com/aws-amplify/amplify-cli/commit/b5f917a81524feb64ec7e674c6213cb47fd7794c)), closes [#5741](https://github.com/aws-amplify/amplify-cli/issues/5741)
+
+
+
+
+
 ## [1.4.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-velocity-template@1.4.1...amplify-velocity-template@1.4.2) (2020-12-07)
 
 **Note:** Version bump only for package amplify-velocity-template

@@ -3,6 +3,99 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.16.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.16.1...amplify-e2e-core@1.16.2) (2021-03-23)
+
+
+### Bug Fixes
+
+* **amplify-category-api:** mantain ff in iam api policy ([#6723](https://github.com/aws-amplify/amplify-cli/issues/6723)) ([51e5e1b](https://github.com/aws-amplify/amplify-cli/commit/51e5e1b53514a05788dd824a48991c0db0b9705d)), closes [#6675](https://github.com/aws-amplify/amplify-cli/issues/6675)
+
+
+
+
+
+## [1.16.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.16.0...amplify-e2e-core@1.16.1) (2021-03-11)
+
+**Note:** Version bump only for package amplify-e2e-core
+
+
+
+
+
+# [1.16.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.15.2...amplify-e2e-core@1.16.0) (2021-03-05)
+
+
+### Bug Fixes
+
+* allow selecting all columns for GSIs ([#6689](https://github.com/aws-amplify/amplify-cli/issues/6689)) ([c33d29a](https://github.com/aws-amplify/amplify-cli/commit/c33d29a0398449379e49f023d068504c47872667))
+* pull issue with multi-env notifications [#6475](https://github.com/aws-amplify/amplify-cli/issues/6475) ([#6525](https://github.com/aws-amplify/amplify-cli/issues/6525)) ([b0803d1](https://github.com/aws-amplify/amplify-cli/commit/b0803d1a361c15db8ad6e32648f29402539aa2e4))
+* wording: Enable, instead of Configure, conflict detection ([#6708](https://github.com/aws-amplify/amplify-cli/issues/6708)) ([dac6ae9](https://github.com/aws-amplify/amplify-cli/commit/dac6ae94af47dd01da25ea4f61efd5442cb4c06b))
+
+
+### Features
+
+* generate datastore models for Admin CMS to consume post-deployment from CLI ([#6771](https://github.com/aws-amplify/amplify-cli/issues/6771)) ([0e74b65](https://github.com/aws-amplify/amplify-cli/commit/0e74b657491e53eb04376bb727eb442b59b2cf4c))
+
+
+
+
+
+## [1.15.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.15.1...amplify-e2e-core@1.15.2) (2021-02-26)
+
+**Note:** Version bump only for package amplify-e2e-core
+
+
+
+
+
+## [1.15.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.15.0...amplify-e2e-core@1.15.1) (2021-02-24)
+
+**Note:** Version bump only for package amplify-e2e-core
+
+
+
+
+
+# [1.15.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.14.1...amplify-e2e-core@1.15.0) (2021-02-17)
+
+
+### Features
+
+* **amplify-cli-core:** add validations to tag Key and Value ([31eb8eb](https://github.com/aws-amplify/amplify-cli/commit/31eb8ebff2fcbd215975c8ac05287d023d544c42))
+
+
+
+
+
+## [1.14.1](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.14.0...amplify-e2e-core@1.14.1) (2021-02-11)
+
+**Note:** Version bump only for package amplify-e2e-core
+
+
+
+
+
+# [1.14.0](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.13.4...amplify-e2e-core@1.14.0) (2021-02-10)
+
+
+### Bug Fixes
+
+* appclient secret output default to false ([#6333](https://github.com/aws-amplify/amplify-cli/issues/6333)) ([3da53b7](https://github.com/aws-amplify/amplify-cli/commit/3da53b7c9aacf718ebd8ea63e59928425af20764))
+* fix appsync permission assignment from functions ([#5342](https://github.com/aws-amplify/amplify-cli/issues/5342)) ([b2e2dd0](https://github.com/aws-amplify/amplify-cli/commit/b2e2dd0071c1a451ba032cf7f8cfe7cf6381a96e))
+* **amplify-provider-awscloudformation:** fix hosting output ([#6041](https://github.com/aws-amplify/amplify-cli/issues/6041)) ([a2c1577](https://github.com/aws-amplify/amplify-cli/commit/a2c15774762c0f07b44ca9c91c57ef4eb3752f2b)), closes [#402](https://github.com/aws-amplify/amplify-cli/issues/402)
+* **amplify-provider-awscloudformation:** use prev deployment vars ([#6486](https://github.com/aws-amplify/amplify-cli/issues/6486)) ([39dfd27](https://github.com/aws-amplify/amplify-cli/commit/39dfd271bcf86b0ec424bb89c0bb38c0544d8d80))
+* persist s3bucket metadata on pull and env change ([#6502](https://github.com/aws-amplify/amplify-cli/issues/6502)) ([357f787](https://github.com/aws-amplify/amplify-cli/commit/357f787c2d816e1defa1d0909b06f82775c35255))
+* support choosing AWS authentication flow when admin UI is enabled ([#6433](https://github.com/aws-amplify/amplify-cli/issues/6433)) ([3bf56a8](https://github.com/aws-amplify/amplify-cli/commit/3bf56a8e2e5be67dd861a55807ecc94bd561b4a2))
+
+
+### Features
+
+* **graphql-key-transformer:** change default to add GSIs when using [@key](https://github.com/key) ([#5648](https://github.com/aws-amplify/amplify-cli/issues/5648)) ([4287c63](https://github.com/aws-amplify/amplify-cli/commit/4287c630295c304c7ff8343922926b4830b75cd4))
+
+
+
+
+
 ## [1.13.4](https://github.com/aws-amplify/amplify-cli/compare/amplify-e2e-core@1.13.3...amplify-e2e-core@1.13.4) (2021-01-08)
 
 

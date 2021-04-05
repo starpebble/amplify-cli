@@ -1,14 +1,15 @@
 import {
-  initJSProjectWithProfile,
-  deleteProject,
   addAuthWithDefaultSocial,
-  isDeploymentSecretForEnvExists,
+  amplifyPushWithoutCodegen,
   amplifyStatus,
   amplifyStatusWithMigrate,
   amplifyVersion,
-  amplifyPushWithoutCodegen,
+  createNewProjectDir,
+  deleteProject,
+  deleteProjectDir,
+  isDeploymentSecretForEnvExists,
 } from 'amplify-e2e-core';
-import { createNewProjectDir, deleteProjectDir } from 'amplify-e2e-core';
+import { initJSProjectWithProfileOldDX } from '../../../migration-helpers';
 
 describe('amplify auth add with social', () => {
   let projRoot: string;
@@ -25,7 +26,7 @@ describe('amplify auth add with social', () => {
     // init, add api and push with installed cli
     const envName = 'integtest';
     await amplifyVersion(projRoot, '4.30.0', false);
-    await initJSProjectWithProfile(projRoot, {});
+    await initJSProjectWithProfileOldDX(projRoot, {});
     await addAuthWithDefaultSocial(projRoot, {});
     expect(isDeploymentSecretForEnvExists(projRoot, envName)).toBeFalsy();
     await amplifyPushWithoutCodegen(projRoot);

@@ -3,6 +3,76 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/aws-amplify/amplify-console-integration-tests/compare/amplify-console-integration-tests@1.4.1...amplify-console-integration-tests@1.4.2) (2021-03-23)
+
+**Note:** Version bump only for package amplify-console-integration-tests
+
+
+
+
+
+## [1.4.1](https://github.com/aws-amplify/amplify-console-integration-tests/compare/amplify-console-integration-tests@1.4.0...amplify-console-integration-tests@1.4.1) (2021-03-11)
+
+**Note:** Version bump only for package amplify-console-integration-tests
+
+
+
+
+
+# [1.4.0](https://github.com/aws-amplify/amplify-console-integration-tests/compare/amplify-console-integration-tests@1.3.16...amplify-console-integration-tests@1.4.0) (2021-03-05)
+
+
+### Features
+
+* remove OAuth prompt from pull and new env ([#6739](https://github.com/aws-amplify/amplify-console-integration-tests/issues/6739)) ([8ff15a6](https://github.com/aws-amplify/amplify-console-integration-tests/commit/8ff15a6ea2c3c687f0344fb4e17547097cd575ea))
+
+
+
+
+
+## [1.3.16](https://github.com/aws-amplify/amplify-console-integration-tests/compare/amplify-console-integration-tests@1.3.15...amplify-console-integration-tests@1.3.16) (2021-02-26)
+
+**Note:** Version bump only for package amplify-console-integration-tests
+
+
+
+
+
+## [1.3.15](https://github.com/aws-amplify/amplify-console-integration-tests/compare/amplify-console-integration-tests@1.3.14...amplify-console-integration-tests@1.3.15) (2021-02-24)
+
+**Note:** Version bump only for package amplify-console-integration-tests
+
+
+
+
+
+## [1.3.14](https://github.com/aws-amplify/amplify-console-integration-tests/compare/amplify-console-integration-tests@1.3.13...amplify-console-integration-tests@1.3.14) (2021-02-17)
+
+**Note:** Version bump only for package amplify-console-integration-tests
+
+
+
+
+
+## [1.3.13](https://github.com/aws-amplify/amplify-console-integration-tests/compare/amplify-console-integration-tests@1.3.12...amplify-console-integration-tests@1.3.13) (2021-02-11)
+
+**Note:** Version bump only for package amplify-console-integration-tests
+
+
+
+
+
+## [1.3.12](https://github.com/aws-amplify/amplify-console-integration-tests/compare/amplify-console-integration-tests@1.3.11...amplify-console-integration-tests@1.3.12) (2021-02-10)
+
+
+### Bug Fixes
+
+* support choosing AWS authentication flow when admin UI is enabled ([#6433](https://github.com/aws-amplify/amplify-console-integration-tests/issues/6433)) ([3bf56a8](https://github.com/aws-amplify/amplify-console-integration-tests/commit/3bf56a8e2e5be67dd861a55807ecc94bd561b4a2))
+
+
+
+
+
 ## [1.3.11](https://github.com/aws-amplify/amplify-console-integration-tests/compare/amplify-console-integration-tests@1.3.10...amplify-console-integration-tests@1.3.11) (2021-01-08)
 
 

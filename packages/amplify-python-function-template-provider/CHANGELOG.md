@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.7](https://github.com/aws-amplify/amplify-cli/compare/amplify-python-function-template-provider@1.3.6...amplify-python-function-template-provider@1.3.7) (2021-03-23)
+
+
+### Bug Fixes
+
+* adding JSON stringify to example python function ([#6493](https://github.com/aws-amplify/amplify-cli/issues/6493)) ([a6584e2](https://github.com/aws-amplify/amplify-cli/commit/a6584e2920764be10108a799d93222e3c3397ef1)), closes [/github.com/aws-amplify/amplify-js/issues/6390#issuecomment-740757548](https://github.com//github.com/aws-amplify/amplify-js/issues/6390/issues/issuecomment-740757548)
+
+
+
+
+
+## [1.3.6](https://github.com/aws-amplify/amplify-cli/compare/amplify-python-function-template-provider@1.3.4...amplify-python-function-template-provider@1.3.6) (2021-02-26)
+
+
+
+## 4.44.2 (2021-02-26)
+
+**Note:** Version bump only for package amplify-python-function-template-provider
+
+
+
+
+
+## [1.3.4](https://github.com/aws-amplify/amplify-cli/compare/amplify-python-function-template-provider@1.3.3...amplify-python-function-template-provider@1.3.4) (2021-02-17)
+
+**Note:** Version bump only for package amplify-python-function-template-provider
+
+
+
+
+
+## [1.3.3](https://github.com/aws-amplify/amplify-cli/compare/amplify-python-function-template-provider@1.3.2...amplify-python-function-template-provider@1.3.3) (2021-02-10)
+
+
+### Bug Fixes
+
+* add src files to python venv when mocking ([#6454](https://github.com/aws-amplify/amplify-cli/issues/6454)) ([4653062](https://github.com/aws-amplify/amplify-cli/commit/465306278fd1d7452beab96a4b97ca53f3885664))
+* enables cors support for lambda proxy integrations for python ([#6477](https://github.com/aws-amplify/amplify-cli/issues/6477)) ([44d1ce3](https://github.com/aws-amplify/amplify-cli/commit/44d1ce34786b6d1161d48332d7d026414a126c89))
+
+
+
+
+
 ## [1.3.2](https://github.com/aws-amplify/amplify-cli/compare/amplify-python-function-template-provider@1.3.1...amplify-python-function-template-provider@1.3.2) (2020-12-11)
 
 **Note:** Version bump only for package amplify-python-function-template-provider

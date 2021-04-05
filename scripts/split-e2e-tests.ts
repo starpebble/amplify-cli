@@ -2,8 +2,8 @@ import * as yaml from 'js-yaml';
 import * as glob from 'glob';
 import { join } from 'path';
 import * as fs from 'fs-extra';
-
 const CONCURRENCY = 4;
+// Ensure to update packages/amplify-e2e-tests/src/cleanup-e2e-resources.ts is also updated this gets updated
 const AWS_REGIONS_TO_RUN_TESTS = [
   'us-east-2',
   'us-west-2',
@@ -25,6 +25,7 @@ const KNOWN_SUITES_SORTED_ACCORDING_TO_RUNTIME = [
   'src/__tests__/amplify-configure.test.ts',
   'src/__tests__/init.test.ts',
   'src/__tests__/tags.test.ts',
+  'src/__tests__/notifications.test.ts',
   //<15m
   'src/__tests__/schema-versioned.test.ts',
   'src/__tests__/schema-data-access-patterns.test.ts',
@@ -125,8 +126,8 @@ export type CircleCIConfig = {
   };
 };
 
-function getTestFiles(dir: string, pattern = '**/*.test.ts'): string[] {
-  return sortTestsBasedOnTime(glob.sync(pattern, { cwd: dir }));
+function getTestFiles(dir: string, pattern = 'src/**/*.test.ts'): string[] {
+  return sortTestsBasedOnTime(glob.sync(pattern, { cwd: dir })).reverse();
 }
 
 function generateJobName(baseName: string, testSuitePath: string): string {
@@ -206,7 +207,7 @@ function splitTests(
             return {
               [newJobName]: {
                 ...Object.values(workflowJob)[0],
-                requires: [...(workflowJob[jobName].requires || []), ...(requires ? [requires] : [])],
+                requires: [...(requires ? [requires] : workflowJob[jobName].requires || [])],
               },
             };
           }
@@ -294,12 +295,12 @@ function getRequiredJob(jobNames: string[], index: number, concurrency: number =
 
 function loadConfig(): CircleCIConfig {
   const configFile = join(process.cwd(), '.circleci', 'config.base.yml');
-  return <CircleCIConfig>yaml.safeLoad(fs.readFileSync(configFile, 'utf8'));
+  return <CircleCIConfig>yaml.load(fs.readFileSync(configFile, 'utf8'));
 }
 
 function saveConfig(config: CircleCIConfig): void {
   const configFile = join(process.cwd(), '.circleci', 'config.yml');
-  const output = ['# auto generated file. Edit config.base.yaml if you want to change', yaml.safeDump(config)];
+  const output = ['# auto generated file. Edit config.base.yaml if you want to change', yaml.dump(config)];
   fs.writeFileSync(configFile, output.join('\n'));
 }
 function main(): void {

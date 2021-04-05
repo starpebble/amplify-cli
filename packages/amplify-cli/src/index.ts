@@ -33,9 +33,36 @@ import { logInput } from './conditional-local-logging-init';
 
 EventEmitter.defaultMaxListeners = 1000;
 
+// Change stacktrace limit to max value to capture more details if needed
+Error.stackTraceLimit = Number.MAX_SAFE_INTEGER;
+
+let errorHandler = (e: Error) => {};
+
+process.on('uncaughtException', function (error) {
+  // Invoke the configured error handler if it is already configured
+  if (errorHandler) {
+    errorHandler(error);
+  } else {
+    // Fall back to pure console logging as we have no context, etc in this case
+    if (error.message) {
+      console.error(error.message);
+    }
+
+    if (error.stack) {
+      console.log(error.stack);
+    }
+
+    exitOnNextTick(1);
+  }
+});
+
+// In this handler we have to rethrow the error otherwise the process stucks there.
+process.on('unhandledRejection', function (error) {
+  throw error;
+});
+
 // entry from commandline
 export async function run() {
-  let errorHandler = (e: Error) => {};
   try {
     deleteOldVersion();
     let pluginPlatform = await getPluginPlatform();
@@ -83,16 +110,23 @@ export async function run() {
 
     await FeatureFlags.initialize(contextEnvironmentProvider, useNewDefaults);
 
-    await attachUsageData(context);
+    attachUsageData(context);
 
     if (!(await migrateTeamProviderInfo(context))) {
       context.usageData.emitError(new TeamProviderInfoMigrateError());
+
       return 1;
     }
+
     errorHandler = boundErrorHandler.bind(context);
+
     process.on('SIGINT', sigIntHandler.bind(context));
 
-    await checkProjectConfigVersion(context);
+    // Skip NodeJS version check and migrations if Amplify CLI is executed in CI/CD or
+    // the command is not push
+    if (!isCI && context.input.command === 'push') {
+      await checkProjectConfigVersion(context);
+    }
 
     context.usageData.emitInvoke();
 
@@ -192,12 +226,14 @@ function boundErrorHandler(this: Context, e: Error) {
 
 async function sigIntHandler(this: Context, e: any) {
   this.usageData.emitAbort();
+
   try {
     await this.amplify.runCleanUpTasks(this);
   } catch (err) {
     this.print.warning(`Could not run clean up tasks\nError: ${err.message}`);
   }
   this.print.warning('^Aborted!');
+
   exitOnNextTick(2);
 }
 
@@ -224,27 +260,39 @@ export async function execute(input: Input): Promise<number> {
       }
     }
 
-    const context = await constructContext(pluginPlatform, input);
-    await attachUsageData(context);
+    const context = constructContext(pluginPlatform, input);
+
+    attachUsageData(context);
+
     errorHandler = boundErrorHandler.bind(context);
+
     process.on('SIGINT', sigIntHandler.bind(context));
+
     context.usageData.emitInvoke();
+
     await executeCommand(context);
+
     const exitCode = process.exitCode || 0;
+
     if (exitCode === 0) {
       context.usageData.emitSuccess();
     }
+
     persistContext(context);
+
     return exitCode;
   } catch (e) {
     // ToDo: add logging to the core, and log execution errors using the unified core logging.
     errorHandler(e);
+
     if (e.message) {
       print.error(e.message);
     }
+
     if (e.stack) {
       print.info(e.stack);
     }
+
     return 1;
   }
 }
@@ -253,6 +301,7 @@ export async function executeAmplifyCommand(context: Context) {
   if (context.input.command) {
     const commandPath = path.normalize(path.join(__dirname, 'commands', context.input.command));
     const commandModule = await import(commandPath);
+
     await commandModule.run(context);
   }
 }
